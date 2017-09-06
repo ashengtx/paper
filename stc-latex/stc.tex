@@ -10,6 +10,8 @@
 \usepackage{graphicx}
 \usepackage{makeidx}  % allows for indexgeneration
 \usepackage{amsmath}
+\usepackage{bm}
+\usepackage{multirow}
 \begin{document}
 %
 %\frontmatter          % for the preliminaries
@@ -35,12 +37,12 @@
 %\tocauthor{Ivar Ekeland, Roger Temam, Jeffrey Dean, David Grove,
 %Craig Chambers, Kim B. Bruce, and Elisa Bertino}
 %
-\institute{Fuzhou University, Fuzhou, China \\
+\institute{NetDragon Websoft Inc., Fuzhou, China \\
 \email{linliansheng@nd.com.cn}
-\and NedDragon Websoft Inc., Fuzhou, China \\
-\email{ni.han.ms6@foxmail.com}
+\and NetDragon Websoft Inc., Fuzhou, China \\
+\email{nihan@nd.com.cn}
 \and Minjiang University, Fuzhou, China \\
-\email{xuge@pku.edu.cn}
+\email{XuGeNLP@nd.com.cn}
 }
 
 \maketitle              % typeset the title of the contribution
@@ -49,10 +51,11 @@
 This paper describes our approaches at NTCIR-13 short text conversation 2 
 (STC-2) task (Chinese). For a new post, our system firstly retrieves similar posts 
 in the repository and gets their corresponding comments, and then finds the 
-related comments directly from the repository. Moreover, we devises a pattern-idf to rerank the candidates from above. Our best run achieved 0.4780 for mean nG@1, 0.5497 for mean P+, 
-and 0.5882 for mean nERR@10, and respectively ranked 4th, 5th, 5th among 22 
-teams. 
-\keywords{Short text conversation, LSI, Word2vec, Pattern-idf}
+related comments directly from the repository. Moreover, we devise a pattern-idf 
+to rerank the candidates from above. Our best run achieves 0.4780 for mean nG@1, 
+0.5497 for mean P+, and 0.5882 for mean nERR@10, and respectively rankes 4th, 
+5th, 5th among 22 teams. 
+\keywords{Short text conversation, LSA, LDA, Word2vec, LSTM, Pattern-idf}
 \end{abstract}
 
 \section{Introduction}
@@ -64,31 +67,23 @@ retrieval-based method.
 
 The retrieved or generated comment for the new post is judged from four 
 criteria: Coherent, Topically relevant, Non-repetitive and Context 
-independent\cite{}. The primary criterion for a suitable comment we consider is 
+independent\cite{Lifeng}. The primary criterion for a suitable comment we consider is 
 topically relevant. In other words, this comment should be talking about the 
-same topic with the given post. In a previous work of retrieval-based STC, 
-Ji et al.\cite{} directly focus on the similarity between this new post and 
-each comments. That is, when the new post and a candidate comment share same 
-words or phrases, we can strongly infer that they may be on the same topic.
-
-However, this is not a prerequisite of being a proper response of the post. 
-For example, **(to do)** . In this case, post and comment is different in words 
-but coherent. Such kind of comment is also non-repetitive. 
-
-To address this problem, we train Word2Vec\cite{} model to obtain the similarity 
-between new post and retrieved comment, LDA\cite() model and LSA\cite() model to obtain the 
-degree of relateness. By combining them together, we proposed a simialrity 
-score to search comment candidates, and achieves a good performance.
+same topic with the given post. We train LSA\cite{Susan} model and LDA\cite{David} 
+model to obtain the degree of topic relateness, Word2Vec\cite{Mikolov} model 
+to obtain the semantic similarity between new post and retrieved comment. 
+By combining them together, we proposed a simialrity score to search comment 
+candidates, and achieves a good performance.
 
 Based on a hypothesis, similar posts has similar corresponding comments, we try 
 to find the similar posts to the new post and get their corresponding comments 
 as a supplement for the candidates. In addition to Word2Vec model and LSA model, 
-we also introduce langugae model trained by LSTM\cite() to compute post-post 
+we also introduce langugae model trained by LSTM\cite{Hoch}\cite{Martin}\cite{{Graves}} to compute post-post 
 similarity.
 
 In the last step, we rank the cadidates by Random Walk and pattern-idf 
-respectively. Result shows that pattern-idf improve the performance while 
-Random Walk deteriorate it instead.
+respectively. Result shows that pattern-idf improves the performance while 
+Random Walk deteriorates it instead.
 
 The remainder of this paper is organized as follows: Section 2 describes our 
 systems in detail. Our experimental results are presented in Section 3. 
@@ -98,16 +93,44 @@ We make conclusions in Section 4 .
 The architecture of our system is described as Figure 1. It includes the following {} components.
 
 \subsection{Preprocessing}
-There are some traditional Chinese, specific symbols in raw text. We convert 
-traditional Chinese to simplified Chinese and remove the specific symbols 
-in order to clean the text. 
+There are some traditional Chinese in raw text which will cause incorrect 
+word segmentation, so we convert traditional Chinese to simplified Chinese with 
+nstools\footnotemark.\ Moreover, we convert full-width characters into half-width
+ones.
+\footnotetext{https://github.com/skydark/nstools}
 
 Unlike English words in a sentence are separated by spaces, Chinese short texts 
 are written without any symbol between characters. So the word segmentation 
-becomes necessary. We choose nlpir\footnotemark\ to segment the chinese text.
+becomes necessary. We choose nlpir\footnotemark\ to segment the chinese text. 
+After segmentation, our system filters meaningless words and symbols according 
+to Chinese stop words list in order to clean the result.
 
-The following example in Table 3 shows the origin text, clean text and 
-segentation result.
+The following example in Table 1 shows the raw text,  
+segmentation result without traditional-simplified conversion(Segmentation 
+Result 1), segmentation result with traditional-simplified conversion
+(Segmentation Result 2), and clean result.
+\begin{table}
+\centering
+\caption{The preprocessing result}
+\begin{tabular}{l@{\qquad}l}
+\hline\noalign{\smallskip}
+Short Text ID & test-post-10440 \\
+\noalign{\smallskip}
+\hline
+\noalign{\smallskip}
+Raw Text          & \begin{CJK}{UTF8}{bsmi}去到美國，\begin{CJK}{UTF8}{gbsn}还\end{CJK}是吃中餐！宮保雞丁家的感覺～\end{CJK}  \\
+\hline
+\noalign{\smallskip}
+Segmentation Result 1  & \begin{CJK}{UTF8}{bsmi}去 到 美 國 , \begin{CJK}{UTF8}{gbsn}还\end{CJK} 是 吃 中餐 ! 宮 保 雞 丁 家 的 感 覺 \end{CJK} \~{} \\
+\hline
+\noalign{\smallskip}
+Segmentation Result 2   & \begin{CJK}{UTF8}{gbsn}去 到 美国 , 还 是 吃 中餐 ! 宫保鸡丁 家 的 感觉 \~{}\end{CJK}   \\
+\hline
+\noalign{\smallskip}
+Clean Result   & \begin{CJK}{UTF8}{gbsn}去 到 美国 还 是 吃 中餐 宫保鸡丁 家 的 感觉\end{CJK}   \\
+\hline
+\end{tabular}
+\end{table}
 
 \footnotetext{http://ictclas.nlpir.org/}
 
@@ -117,7 +140,7 @@ sentences, we convert text sentence into continuous vector representations
 with some techniques including LSA, LDA, Word2Vec, LSTM.
 
 \subsubsection{LSA}
-Latent semantic analysis (LSA) is a technique of analyzing relationships between a set of documents and the terms they contain by producing a set of concepts related to the documents and terms. LSA assumes that words that are close in meaning will occur in similar pieces of text (the distributional hypothesis). A matrix containing word counts per paragraph (rows represent unique words and columns represent each paragraph) is constructed from a large piece of text and a mathematical technique called singular value decomposition (SVD) is used to reduce the number of rows while preserving the similarity structure among columns. We combine each post with its corresponding comments to be a document, then we train LSA model on these documents with gensim\footnotemark\. From trained model, we can get vector for each chinese word.
+Latent semantic analysis (LSA) is a technique of analyzing relationships between a set of documents and the terms they contain by producing a set of concepts related to the documents and terms. LSA assumes that words that are close in meaning will occur in similar pieces of text (the distributional hypothesis). A matrix containing word counts per paragraph (rows represent unique words and columns represent each paragraph) is constructed from a large piece of text and a mathematical technique called singular value decomposition (SVD) is used to reduce the number of rows while preserving the similarity structure among columns.\cite{Susan} We combine each post with its corresponding comments to be a document, then we train LSA model on these documents with gensim\footnotemark\. From trained model, we can get vector for each chinese word.
 Then, we can get vector representation of a sentence by Eq.1:
 \begin{equation}
    V = \frac{1}{n} * \sum_1^n v_i 
@@ -127,11 +150,11 @@ Here, capital $V$ refers to vector of a sentence, $v$ refers to vector of each w
 \footnotetext{A python library for topic modelling, https://radimrehurek.com/gensim/index.html}
 
 \subsubsection{LDA}
-Latent Dirichlet allocation (LDA) is a generative statistical model that allows sets of observations to be explained by unobserved groups that explain why some parts of the data are similar. For example, if observations are words collected into documents, it posits that each document is a mixture of a small number of topics and that each word's creation is attributable to one of the document's topics. Like training LSA model, we combine each post with its corresponding comments to be a document, then we train LDA model on these documents with gensim. With trained LDA model, we can transform new, unseen documents into LDA topic distributions. We regard a sentence(a post, or a comment) as a document, convert it into plain bag-of-words count vector, and then index LDA model to obtain a vector representation of the sentence. 
+Latent Dirichlet allocation (LDA) is a generative statistical model that allows sets of observations to be explained by unobserved groups that explain why some parts of the data are similar. For example, if observations are words collected into documents, it posits that each document is a mixture of a small number of topics and that each word's creation is attributable to one of the document's topics.\cite{David} Like training LSA model, we combine each post with its corresponding comments to be a document, then we train LDA model on these documents with gensim. With trained LDA model, we can transform new, unseen documents into LDA topic distributions. We regard a sentence(a post, or a comment) as a document, convert it into plain bag-of-words count vector, and then index LDA model to obtain a vector representation of the sentence. 
 
 \subsubsection{Word2Vec}
 Word2Vec is an efficient tool for computing continuous distributed 
-representations of words. We train our Word2Vec model on provided training 
+representations of words\cite{Mikolov}. We train our Word2Vec model on provided training 
 text corpus with skip-gram architecture where window size is 10, vector 
 length is 300 and min count is 20 to remove infrequent words. Vector 
 representation for each chinese word is directly obtained from trained model. 
@@ -160,7 +183,7 @@ Here, $q$ denotes the query(the new post) $p$ denote the post from repository.
 
 Then, we get corresponding comments to the top-10 similar posts as first comment candidates, denoted as $C_1$.
 
-\subsubsection{Comment Candidats}
+\subsubsection{Comment Candidates}
 Since Word2Vec model captures semantic similarity, LSA or LDA reflects topic relateness, we combine LSA or LDA with Word2Vec respectively to directly retrieve top-N appropriate comments to the new post from all comments in the repository. N is equal to the number of comment candidates $C_1$. 
 \begin{equation}
    Score_{q,c}^1(q, c) = Sim_{LSA}(q, c) * Sim_{W2V}(q, c)
@@ -168,17 +191,199 @@ Since Word2Vec model captures semantic similarity, LSA or LDA reflects topic rel
 \begin{equation}
    Score_{q,c}^2(q, c) = Sim_{LDA}(q, c) * Sim_{W2V}(q, c)
 \end{equation}
-Here, $q$ denotes the query(the new post) $c$ denote the comment from repository.
+Here, $q$ denotes the query(the new post), $c$ denotes the comment from repository.
 
-We combine the retrived top-N comments by Word2Vec model and LSA model with $C_1$ as final comment candidats for further reranking.
+We combine the retrived top-N comments by Word2Vec model and LSA(or LDA) model with $C_1$ as final comment candidats for further ranking.
 
-\subsection{Reranking}
+\subsection{Ranking}
 
-\subsubsection{Random Walk}
+\subsubsection{TextRank}
 
-\subsubsection{Pattern-idf}
+TextRank\cite{Mihalcea} is a graph-bsed ranking model for text processing. 
+Graph-based ranking algorithms are essentially a
+way of deciding the importance of a vertex within
+a graph, based on global information recursively
+drawn from the entire graph. The basic idea implemented
+by a graph-based ranking model is that
+of “voting” or “recommendation”. When one vertex
+links to another one, it is basically casting a vote
+for that other vertex. The higher the number of votes
+that are cast for a vertex, the higher the importance
+of the vertex. Moreover, the importance of the vertex
+casting the vote determines how important the vote
+itself is, and this information is also taken into account
+by the ranking model. Hence, the score associated
+with a vertex is determined based on the votes
+that are cast for it, and the score of the vertices casting
+these votes.
+
+We consider an undirected weighted TextRank algorithm in our system. 
+Formally, let $G = (V, E)$ be a undirected graph with the set of vertices $V$ and 
+and set of edges E, where E is a subset of $V \times V$. For a given $V_i$, let 
+$link(V_i)$ be the set of vertices that linked with it. The score of a vertex 
+$V_i$ is define as follow:
+\begin{equation}
+  WS(V_i) = (1 - d) + d * \sum_{j \in link(V_i)}{w_{ij} * WS(V_j)}
+\end{equation}
+
+We add each unique word in candidates as a vertex in the graph and use a 
+co-occurrence relation as edges between vertices in the graph. The edge is 
+weighted by word2vec similarity between two words and the number of their 
+co-occurrence. Here co-occurrence means two words co-occur within a window of 
+maximum $W$ words, where the window size $W$ is set to be 5 in our system.
+
+In our system, the TextRank value for each vertex refers to the importance of 
+the word in candidates. We compute the TextRank value iteratively.
+
+Firstly, for comment candidates, we create a dictionary $D$ - a mapping between words 
+and their integer ids. Such that, each unique word is mapped to a integer range 
+from $0$ to $k-1$, $k$ is the size of the dictionary. We use $D_i$ to denote a 
+word whose id is $i$.
+
+Therefore, the $w_{ij}$ is defined as
+\begin{equation}
+  w_{ij} = cnt * Sim(D_i, D_j)
+\end{equation}
+When we scan the candidates sentence by sentence, if the word $D_i$ and $D_j$ 
+co-occur within the window, the count for them increases by 1. The $cnt$ in Eq.7 
+refers to the total count after scanning.
+
+Then, we construct a $k \times k$ matrix $\bm{M}$, defined as
+\begin{equation}
+  \begin{aligned}
+    M_{ij} = \begin{cases} 
+             w_{ij} & j \in link(D_i) \\
+             0 & otherwise
+             \end{cases}
+  \end{aligned}
+\end{equation}
+
+At time t = 0, We initiate a $k$-dimension vector $\bm{R}$, where each entry is defined as the inverse document frequency (idf) of the word: 
+\begin{equation}
+  R_i = idf(D_i)
+\end{equation}
+
+At each time step, the computation yields:
+\begin{equation}
+  \bm{R(t+1)} = d\bm{M}\bm{R(t)} + \frac{1-d}{k} \bm{1}
+\end{equation}
+
+The computation ends when for some small $\epsilon$, $|\bm{R(t+1)} - \bm{R(t)} < \epsilon|$, Where we set $\epsilon = 0.000,000,1$.
+
+Since we get the score $R(D_i)$ for each word $D_i$, the score for each comment candidate $c$ is calculated as:
+\begin{equation}
+  Rank_{TextRank}(c) = \frac{\sum_{D_i \in c}{R(D_i)}}{len(c)} 
+\end{equation}
+Where, $len(c)$ refers to the number of words for comment $c$.
+
+Finally, we use $Rank_{TextRank}$ to rank the comment candidates and get top-10 comments as our Nders-C-R3 results for each given new post.
+
+\subsubsection{Pattern-Idf}
+Consider the hypothesis, similar post has similar corresponding comments. In other words, for the corresponding comments of similar post, the word distribution may also be similar. Therefore, we can use word distribution of the corresponding comments of post in the repository to infer that of the new post.
+
+The conditional probability of word $D_i$ in comment given word $D_j$ in post is defined as:
+\begin{equation}
+  Prob(D_i|D_j) = \frac{count(D_i, D_j)}{count(D_j)}
+\end{equation}
+Then, we define Pattern-Idf as:
+\begin{equation}
+  PatternIdf(D_i|D_j) = idf(D_j) * \log{Prob(D_i|D_j)}
+\end{equation}
+For each comment $c$ in candidates, given a query (new post) $q$, we calculate the score by Pattern-Idf as follow:
+\begin{equation}
+  Score_{PatternIdf}(q, c) = \frac{\sum_{D_j \in q}{\sum_{D_i \in c}{PatternIdf(D_i|D_j)}}}{len(c) * len(q)}
+\end{equation}
+
+Then we define rank score as follow:
+\begin{equation}
+  Rank_{PatternIdf} = (1 + Score_{PatternIdf}(q, c)) * Sim_{w2v}(q, c)*Sim_{LDA}(q, c)  
+\end{equation}
+
+Finally, we use $Rank_{PatternIdf}$ to rank the comment candidates and get top-10 comments as our Nders-C-R2 results for each given new post.
+
+\subsubsection{TextRank + Pattern-Idf}
+In this method, We add each comment sentence in candidates as a vertex in the 
+graph and use Word2Vec similarity as edges between vertices in the graph. 
+
+At time t = 0, We initiate a $l$-dimension vector $\bm{P}$, here $l$ is the 
+number of comment candidates. And each entry of $\bm{P}$ is defined as the 
+score of Pattern-Idf between the query (new post) $q$ and corresponding comment
+$c_i$ in candidates:
+\begin{equation}
+  P_i = Score_{PatternIdf}(q, c_i)
+\end{equation} 
+
+Then, we construct a $l \times l$ matrix $\bm{M}$, defined as
+\begin{equation}
+  \begin{aligned}
+    M_{ij} = Sim_{W2V}(c_i, c_j)
+  \end{aligned}
+\end{equation}
+
+At each time step, the computation yields:
+\begin{equation}
+  \bm{P(t+1)} = d\bm{M}\bm{P(t)} + \frac{1-d}{l} \bm{1}
+\end{equation}
+
+The computation ends when for some small $\epsilon$, $|\bm{P(t+1)} - \bm{P(t)} < \epsilon|$, Where we set $\epsilon = 0.000,000,1$.
+
+Finally, we get the score $P_i$ for each comment in candidates. After sorting, 
+the top-10 comments are obtained as our Nders-C-R2 results.
 
 \section{Experiments}
+
+\subsection{Data Set}
+Table 2 shows the statistics of the retrieval repository, training
+data and test data. There are 219,174 Weibo posts and the
+corresponding 4,305,706 comments. There are 4,433,949 post-comment
+pairs. So each post has 20 different comments on
+average, and one comment can be used to respond to multiple
+different posts. 
+
+There are 769 query posts in training data, each of which has about 15 
+candidate comments. Totally, there are 11,535 comments labeled with 
+“suitable”, “neutral”, and “unsuitable”. “Suitable” means that the comment 
+is clearly a suitable comment to the post, “neutral” means that the comment 
+can be a comment to the post in a specific scenario, while “unsuitable” means 
+it is not the two former cases. 
+
+100 query posts are used for test. Each team is permitted to submit five
+runs to the task. In each run, a ranking list of ten comments for
+each test query is requested. 
+
+\begin{table}[]
+\centering
+\caption{Statistics of dataset for Chinese subtask}
+\label{my-label}
+\begin{tabular}{|l@{\quad}|l@{\quad}|@{\quad}r|}
+\hline
+\multirow{3}{*}{Repository}
+                  & \#posts           & 219,174   \\ \cline{2-3} 
+                  & \#comments        & 4,305,706 \\ \cline{2-3} 
+                  & \#original pairs  & 4,433,949 \\ \hline
+\multirow{3}{*}{Training Data} 
+                  & \#posts           & 769       \\ \cline{2-3} 
+                  & \#comments        & 11,535    \\ \cline{2-3} 
+                  & \#labeled pairs   & 11,535    \\ \hline
+Test Data         & \#query posts     & 100       \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Evaluation Measures}
+Following the NTCIR-12 STC-1 Chinese subtask, three evaluation measures are
+used: nG@1 (normalised gain at cut-off 1), P+, and nERR@10 (normalised expected reciprocal rank at cutoff 10)\cite{Lifeng}.
+
+nG@1 shows the quantity of effective result in the retrieved candidates. 
+
+P+ depends most on the position of the best effective result in the
+ranking list of retrieved candidates. It gives the top ranked result
+the most ratio. 
+
+nERR@10 shows the rank correctness of the candidates ranking,
+which means that the more effective result should be ranked as
+more front of the ranking list of retrieved candidates.
+
+\subsection{Experimental Results}
 We submitted five runs for comparison and analysis:
 
 \begin{enumerate}
@@ -186,22 +391,87 @@ We submitted five runs for comparison and analysis:
   retrieve and get top-10 comments from all comments.
   \item{Nders-C-R4: } Use $Sim_{w2v}*Sim_{LSI}$ as a ranking score to directly 
   retrieve and get top-10 comments from all comments.
-  \item{Nders-C-R3: }
-  \item{Nders-C-R2: }
-  \item{Nders-C-R1: }
+  \item{Nders-C-R3: } Use graph-based algorithm TextRank with words as vertices
+  in the graph, and use score $Rank_{TextRank}$ to rank comment in the 
+  candidates and get top-10 comments.
+  \item{Nders-C-R2: } Use $Rank_{PatternIdf}$ as a ranking score to get top-10 comments from comment candidates.
+  \item{Nders-C-R1: } Use graph-based algorithm TextRank with comments as vertices in the graph and Pattern-Idf as initiate score for each comment to 
+  rank the comment in the candidates and get top-10 comments.
 \end{enumerate}
 
-\section{Conclusions}
+The official results of our five runs are shown in Table 3
+\begin{table}[]
+\centering
+\caption{The official results of five runs for Nders team}
+\label{my-label}
+\begin{tabular}{|l@{\quad}|c|c|c|}
+\hline
+ Run  \quad & \quad Mean nG@1 \quad & \quad Mean P+ \quad & \quad Mean nERR@10 \quad \\ \hline
+ Nders-C-R1 & 0.4593 & 0.5394 & 0.5805 \\ \hline
+ Nders-C-R2 & 0.4743 & \textbf{0.5497} & \textbf{0.5882} \\ \hline
+ Nders-C-R3 & 0.4647 & 0.5317 & 0.5768 \\ \hline
+ Nders-C-R4 & \textbf{0.4780} & 0.5338 & 0.5809 \\ \hline
+ Nders-C-R5 & 0.4550 & 0.5495 & 0.5868 \\ \hline
+\end{tabular}
+\end{table}
 
-In this paper, we  
+Table 3 shows that, with the use of Word2Vec and LSA model, R4 achieves 
+best result in our five runs for Mean nG@1, which finally ranks 4th among 22 
+teams. 
+
+The best results in our runs for Mean P+ and Mean nERR@10 are both R2, 
+which introduces Pattern-Idf to rank the comment candidates generated by 
+Word2Vec and LSA model(R4). The result of R2 improves against R4 and ranks 5th 
+both for Mean P+ and Mean nERR@10 among 22 teams, which proves the 
+effectiveness of the Pattern-Idf we devised. 
+
+However, the results of R3 are worse than that of R4 for all three metrics, 
+which shows TextRank is not helpful for candidates ranking in this task.
+
+Compare the result of R4 and R5, we find that for Mean P+ and Mean nERR@10 the 
+result of R5 is better than that of R4, which shows LDA model outperform LSI 
+model in this task.
+
+\section{Conclusions}
+In this paper, we propose an approach for STC-2 task of NTCIR-13. The LSA,
+Word2Vec and LSTM model are used to find similar posts. The LSA, LDA and Word2Vec 
+model are used to retrieve comment candidates. A graph-based algorithm TextRank 
+and the Pattern-Idf we devised are applied to rank the candidates. Results show 
+that the Pattern-Idf we devised is effective for ranking while TextRank not, 
+and LDA model outperforms LSI model in retrieving candidates. Finally, our best 
+run achieves 0.4780(R4) for mean nG@1, 0.5497(R2) for mean P+, and 0.5882(R2) for 
+mean nERR@10, which respectively rankes 4th, 5th, 5th among 22 teams. 
+
 
 %
 % ---- Bibliography ----
 %
 \begin{thebibliography}{5}
 
+\bibitem {Lifeng}
+Lifeng Shang, Tetsuya Sakai, Zhengdong Lu, Hang Li, Ryuichiro Higashinaka, Yusuke Miyao. 
+Overview of the NTCIR-12 Short Text Conversation Task, 2016.
 
+\bibitem {Susan}
+Susan T. Dumais (2005). "Latent Semantic Analysis". Annual Review of Information Science and Technology. 38: 188–230. 
 
+\bibitem {David}
+Blei, David M, A. Y. Ng, and M. I. Jordan. "Latent dirichlet allocation." Journal of Machine Learning Research 3(2003):993-1022.
+
+\bibitem {Mikolov}
+Mikolov, Tomas, et al. "Efficient Estimation of Word Representations in Vector Space." Computer Science (2013).
+
+\bibitem {Hoch}
+Hochreiter, S., \& Schmidhuber, J. (1997). Long short-term memory. Neural computation, 9(8), 1735-1780.
+
+\bibitem {Martin}
+Sundermeyer, Martin, R. Schlüter, and H. Ney. "LSTM Neural Networks for Language Modeling." Interspeech 2012:601-608.
+
+\bibitem {Graves}
+Graves, Alex. "Generating Sequences With Recurrent Neural Networks." Computer Science (2013).
+
+\bibitem {Mihalcea}
+Mihalcea, Rada, and P. Tarau. "TextRank: Bringing Order into Texts." Unt Scholarly Works (2004):404-411.
 
 \end{thebibliography}
 
