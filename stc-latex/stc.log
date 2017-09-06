@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.6.8)  6 SEP 2017 18:19
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.6.8)  6 SEP 2017 18:51
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -845,7 +845,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  4540 strings out of 493029
  55765 string characters out of 6136235
- 130703 words of memory out of 5000000
+ 131703 words of memory out of 5000000
  7878 multiletter control sequences out of 15000+600000
  20890 words of font info for 74 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -885,7 +885,7 @@ gbsnu76.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu7f.pfb></usr/share/
 texmf/fonts/type1/arphic/gbsnu/gbsnu89.pfb></usr/share/texmf/fonts/type1/arphic
 /gbsnu/gbsnu8f.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu99.pfb></usr
 /share/texmf/fonts/type1/arphic/gbsnu/gbsnu9e.pfb>
-Output written on stc.pdf (9 pages, 287783 bytes).
+Output written on stc.pdf (9 pages, 288013 bytes).
 PDF statistics:
  233 PDF objects out of 1000 (max. 8388607)
  157 compressed objects within 2 object streams
