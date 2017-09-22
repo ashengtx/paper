@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.6.8)  14 SEP 2017 18:34
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.6.8)  22 SEP 2017 15:26
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -602,6 +602,9 @@ LaTeX Info: Redefining \bm on input line 207.
 
 LaTeX Warning: Label `my-label' multiply defined.
 
+
+LaTeX Warning: Label `tab:commands' multiply defined.
+
 )
 \openout1 = `stc.aux'.
 
@@ -760,16 +763,20 @@ LaTeX Font Info:    Font shape `U/lasy/b/n' in size <6> not available
 LaTeX Font Info:    Font shape `U/lasy/b/n' in size <5> not available
 (Font)              Font shape `U/lasy/m/n' tried instead on input line 50.
 
+Overfull \hbox (9.96991pt too wide) in paragraph at lines 53--61
+\T1/aer/m/n/9 This pa-per de-scribes our retrieval-based ap-proaches at NTCIR-
+ []
+
 <stc-flow.png, id=1, 843.15pt x 1123.19624pt>
 File: stc-flow.png Graphic file (type png)
  <use stc-flow.png>
-Package pdftex.def Info: stc-flow.png used on input line 106.
+Package pdftex.def Info: stc-flow.png used on input line 105.
 (pdftex.def)             Requested size: 238.48622pt x 332.43689pt.
  [1{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}
 
 
  <./stc-flow.png>]
-Overfull \hbox (1.26735pt too wide) in paragraph at lines 118--123
+Overfull \hbox (1.26735pt too wide) in paragraph at lines 117--122
 []\T1/aer/m/n/9 Unlike En-glish words in a sen-tence are sep-a-rated by spaces,
 
  []
@@ -783,7 +790,7 @@ File: UTF8.enc 2015/04/18 4.8.4
 (/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.chr
 File: UTF8.chr 2015/04/18 4.8.4
 )
-LaTeX Font Info:    Try loading font information for C70+bsmi on input line 137
+LaTeX Font Info:    Try loading font information for C70+bsmi on input line 136
 .
 
 (/usr/share/texmf/tex/latex/CJK/UTF8/c70bsmi.fd
@@ -792,7 +799,7 @@ File: c70bsmi.fd 2008/10/03 4.8.1
 (/usr/share/texmf/tex/latex/CJK/UTF8/c70bsmi.fdx
 File: c70bsmi.fdx 2012/05/07 4.8.3
 )
-LaTeX Font Info:    Try loading font information for C70+gbsn on input line 137
+LaTeX Font Info:    Try loading font information for C70+gbsn on input line 136
 .
 
 (/usr/share/texmf/tex/latex/CJK/UTF8/c70gbsn.fd
@@ -819,19 +826,58 @@ File: UTF8.enc 2015/04/18 4.8.4
 (/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.chr
 File: UTF8.chr 2015/04/18 4.8.4
 )
-Overfull \hbox (11.293pt too wide) in paragraph at lines 172--178
-\T1/aer/m/n/9 dis-tributed rep-re-sen-ta-tions of words[4]. We train our Word2V
+Overfull \hbox (11.293pt too wide) in paragraph at lines 202--208
+\T1/aer/m/n/9 dis-tributed rep-re-sen-ta-tions of words[5]. We train our Word2V
 ec
  []
 
+[2] <lstm2.png, id=42, 501.875pt x 308.352pt>
+File: lstm2.png Graphic file (type png)
+ <use lstm2.png>
+Package pdftex.def Info: lstm2.png used on input line 252.
+(pdftex.def)             Requested size: 176.34044pt x 108.40472pt.
 
-Overfull \hbox (11.72853pt too wide) in paragraph at lines 189--190
-\T1/aer/m/n/9 to de-note sen-tence sim-i-lar-ity based on LDA model and $\OML/c
-mm/m/it/9 Sim[]$
+<unilstm.png, id=43, 521.95pt x 248.93pt>
+File: unilstm.png Graphic file (type png)
+ <use unilstm.png>
+Package pdftex.def Info: unilstm.png used on input line 278.
+(pdftex.def)             Requested size: 227.6517pt x 108.40521pt.
+
+(/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.enc
+File: UTF8.enc 2015/04/18 4.8.4
+)
+(/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.chr
+File: UTF8.chr 2015/04/18 4.8.4
+)
+(/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.enc
+File: UTF8.enc 2015/04/18 4.8.4
+)
+(/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.chr
+File: UTF8.chr 2015/04/18 4.8.4
+)
+Overfull \hbox (7.33202pt too wide) in paragraph at lines 282--287
+[]\T1/aer/m/n/9 To over-come the un-bal-ance, we re-place uni-di-rec-tional LST
+M
  []
 
 
-Overfull \hbox (6.65022pt too wide) detected at line 197
+Overfull \hbox (4.0935pt too wide) in paragraph at lines 282--287
+\T1/aer/m/n/9 with bidi-rec-tional LSTM. The tra-di-tional bidi-rec-tional LSTM
+
+ []
+
+<bilstm1.png, id=46, 602.25pt x 321.2pt>
+File: bilstm1.png Graphic file (type png)
+ <use bilstm1.png>
+Package pdftex.def Info: bilstm1.png used on input line 290.
+(pdftex.def)             Requested size: 203.0806pt x 108.40277pt.
+ [3 <./lstm2.png> <./unilstm.png>] <bilstm2.png, id=85, 1026.234pt x 512.314pt>
+File: bilstm2.png Graphic file (type png)
+ <use bilstm2.png>
+Package pdftex.def Info: bilstm2.png used on input line 318.
+(pdftex.def)             Requested size: 448.78836pt x 216.80421pt.
+
+Overfull \hbox (6.65022pt too wide) detected at line 332
 \OML/cmm/m/it/9 Score[]\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 q; p\OT1/cmr/m/n/9 ) = \
 OML/cmm/m/it/9 Sim[]\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 q; p\OT1/cmr/m/n/9 ) \OMS/c
 msy/m/n/9 ^^C \OML/cmm/m/it/9 Sim[]\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 q; p\OT1/cmr
@@ -839,19 +885,10 @@ msy/m/n/9 ^^C \OML/cmm/m/it/9 Sim[]\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 q; p\OT1/cmr
 /9 q; p\OT1/cmr/m/n/9 )
  []
 
-[2]
-Overfull \hbox (4.18332pt too wide) in paragraph at lines 218--235
-\T1/aer/m/n/9 rank-ing model is that of "vot-ing" or "rec-om-men-da-tion". When
-
- []
-
-
-Underfull \vbox (badness 1394) has occurred while \output is active []
-
-
+[4 <./bilstm1.png>]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 312.
+               Default added (so using `tbp') on input line 446.
 
 (/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.enc
 File: UTF8.enc 2015/04/18 4.8.4
@@ -942,26 +979,31 @@ File: UTF8.enc 2015/04/18 4.8.4
 )
 (/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.chr
 File: UTF8.chr 2015/04/18 4.8.4
-)
-Overfull \hbox (6.15102pt too wide) detected at line 340
-\OML/cmm/m/it/9 Rank[] \OT1/cmr/m/n/9 = (1 + \OML/cmm/m/it/9 Score[]\OT1/cmr/m/
-n/9 (\OML/cmm/m/it/9 q; c\OT1/cmr/m/n/9 )) \OMS/cmsy/m/n/9 ^^C \OML/cmm/m/it/9 
-Sim[]\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 q; c\OT1/cmr/m/n/9 ) \OMS/cmsy/m/n/9 ^^C \
-OML/cmm/m/it/9 Sim[]\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 q; c\OT1/cmr/m/n/9 )
- []
-
-[3]
-Overfull \hbox (13.88509pt too wide) in paragraph at lines 376--382
+) [5 <./bilstm2.png>]
+Overfull \hbox (13.88509pt too wide) in paragraph at lines 510--516
 \T1/aer/m/n/9 and the cor-re-spond-ing 4,305,706 com-ments. There are 4,433,949
 
  []
 
 
-Overfull \hbox (6.23663pt too wide) in paragraph at lines 453--462
+Overfull \hbox (3.66727pt too wide) in paragraph at lines 517--523
+\T1/aer/m/n/9 com-ments la-beled with \T1/aer/m/it/9 suit-able\T1/aer/m/n/9 , \
+T1/aer/m/it/9 neu-tral\T1/aer/m/n/9 , and \T1/aer/m/it/9 un-suit-able\T1/aer/m/
+n/9 . \T1/aer/m/it/9 Suit-
+ []
+
+
+Overfull \hbox (6.23663pt too wide) in paragraph at lines 586--595
  [] 
  []
 
-[4] [5
+
+Overfull \hbox (3.59612pt too wide) in paragraph at lines 616--624
+\T1/aer/m/n/9 triev-ing can-di-dates. Fi-nally, our best run achieves 0.4780(R4
+)
+ []
+
+[6] [7
 
 ] (./stc.aux)
 
@@ -969,11 +1011,11 @@ LaTeX Warning: There were multiply-defined labels.
 
  ) 
 Here is how much of TeX's memory you used:
- 4722 strings out of 493029
- 59984 string characters out of 6136235
- 132696 words of memory out of 5000000
- 7944 multiletter control sequences out of 15000+600000
- 61418 words of font info for 111 fonts, out of 8000000 for 9000
+ 4768 strings out of 493029
+ 60825 string characters out of 6136235
+ 129816 words of memory out of 5000000
+ 7973 multiletter control sequences out of 15000+600000
+ 64194 words of font info for 115 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  41i,13n,28p,883b,1066s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texmf/
@@ -996,30 +1038,32 @@ exlive/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmmib9.pfb></usr/share/te
 xlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/te
 xmf-dist/fonts/type1/public/amsfonts/cm/cmr9.pfb></usr/share/texlive/texmf-dist
 /fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/
-type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/g
-bsnu4e.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu4f.pfb></usr/share/t
-exmf/fonts/type1/arphic/gbsnu/gbsnu52.pfb></usr/share/texmf/fonts/type1/arphic/
-gbsnu/gbsnu53.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu54.pfb></usr/
-share/texmf/fonts/type1/arphic/gbsnu/gbsnu56.pfb></usr/share/texmf/fonts/type1/
-arphic/gbsnu/gbsnu5b.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu61.pfb
-></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu62.pfb></usr/share/texmf/fonts
-/type1/arphic/gbsnu/gbsnu63.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsn
-u66.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu6e.pfb></usr/share/texm
-f/fonts/type1/arphic/gbsnu/gbsnu6f.pfb></usr/share/texmf/fonts/type1/arphic/gbs
-nu/gbsnu76.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu79.pfb></usr/sha
-re/texmf/fonts/type1/arphic/gbsnu/gbsnu7f.pfb></usr/share/texmf/fonts/type1/arp
-hic/gbsnu/gbsnu84.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu89.pfb></
-usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu8d.pfb></usr/share/texmf/fonts/ty
-pe1/arphic/gbsnu/gbsnu8f.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu90
-.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu99.pfb></usr/share/texmf/f
-onts/type1/arphic/gbsnu/gbsnu9e.pfb></usr/share/texlive/texmf-dist/fonts/type1/
-urw/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic
-/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></u
-sr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on stc.pdf (5 pages, 318462 bytes).
+type1/public/amsfonts/cm/cmsy9.pfb></usr/share/texlive/texmf-dist/fonts/type1/p
+ublic/amsfonts/cm/cmti9.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu4e.
+pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu4f.pfb></usr/share/texmf/fo
+nts/type1/arphic/gbsnu/gbsnu52.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/g
+bsnu53.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu54.pfb></usr/share/t
+exmf/fonts/type1/arphic/gbsnu/gbsnu56.pfb></usr/share/texmf/fonts/type1/arphic/
+gbsnu/gbsnu5b.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu61.pfb></usr/
+share/texmf/fonts/type1/arphic/gbsnu/gbsnu62.pfb></usr/share/texmf/fonts/type1/
+arphic/gbsnu/gbsnu63.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu65.pfb
+></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu66.pfb></usr/share/texmf/fonts
+/type1/arphic/gbsnu/gbsnu6e.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsn
+u6f.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu76.pfb></usr/share/texm
+f/fonts/type1/arphic/gbsnu/gbsnu79.pfb></usr/share/texmf/fonts/type1/arphic/gbs
+nu/gbsnu7f.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu84.pfb></usr/sha
+re/texmf/fonts/type1/arphic/gbsnu/gbsnu89.pfb></usr/share/texmf/fonts/type1/arp
+hic/gbsnu/gbsnu8d.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu8f.pfb></
+usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu90.pfb></usr/share/texmf/fonts/ty
+pe1/arphic/gbsnu/gbsnu99.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu9e
+.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr/s
+hare/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/urw/times/utmri8a.pfb>
+Output written on stc.pdf (7 pages, 508179 bytes).
 PDF statistics:
- 259 PDF objects out of 1000 (max. 8388607)
- 170 compressed objects within 2 object streams
+ 284 PDF objects out of 1000 (max. 8388607)
+ 182 compressed objects within 2 object streams
  0 named destinations out of 1000 (max. 500000)
- 110 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 134 words of extra memory for PDF output out of 10000 (max. 10000000)
 
