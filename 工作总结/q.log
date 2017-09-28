@@ -1,0 +1,23 @@
+This is XeTeX, Version 3.14159265-2.6-0.99996 (MiKTeX 2.9.6100 64-bit) (preloaded format=xelatex 2017.1.2)  18 JUN 2017 21:31
+entering extended mode
+**q
+("C:\Program Files\MiKTeX 2.9\tex\latex\tools\q.tex"
+LaTeX2e <2016/03/31> patch level 3
+Babel <3.9r> and hyphenation patterns for 75 language(s) loaded.
+File ignored
+)
+! Emergency stop.
+<*> q
+     
+*** (job aborted, no legal \end found)
+
+ 
+Here is how much of TeX's memory you used:
+ 5 strings out of 428408
+ 57 string characters out of 3160622
+ 53104 words of memory out of 3000000
+ 3502 multiletter control sequences out of 15000+200000
+ 3640 words of font info for 14 fonts, out of 3000000 for 9000
+ 1328 hyphenation exceptions out of 8191
+ 5i,0n,1p,81b,8s stack positions out of 5000i,500n,10000p,200000b,50000s
+No pages of output.
