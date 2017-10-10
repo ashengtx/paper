@@ -128,7 +128,7 @@
     Ae05A01= 邮递员 \ 邮差 \ 信差 \ 信使 \ 绿衣使者 \ 通信员 \ 投递员 \\
     Ae05A02= 交通员 \ 交通 \ 通讯员 \\
     Ae05A03= 联络员 \ 联络官 \ 联系人 \\
-    其中，义项“邮递员”和“联络员”在第五层分支，分支数n=3，分支距离k2，其相似度为：\\
+    其中，义项“邮递员”和“联络员”在第五层分支，分支数n=3，分支距离k=2，其相似度为：\\
     sim = d * cos(n*pi/180) * ((n-k+1)/n) \\
         = 0.96 * cos(3*pi/180)*((3-2+1)/3) \\
         = 0.639 \\
@@ -344,22 +344,39 @@
     \end{frame}
 
     \begin{frame}{实词概念的相似度计算}
-      
+      实词概念的描述包括两种抽象的结构：集合、特征结构
+      \begin{itemize}
+        \item 集合 \\
+          打：\{exercise|锻炼，sport|体育\}
+        \item 特征结构 \\
+          写信：\{write|写，ContentProduct=letter|信件\}
+      \end{itemize}
     \end{frame}
 
-    \begin{frame}{集合的相似度计算}
-      
+    \begin{frame}{集合之间的相似度计算}
+      \begin{enumerate}
+        \item 首先计算两个集合的所有元素两两之间的相似度；
+        \item 从所有的相似度值中选择最大的一个记下，将这个相似度值对应的两个元素删除；
+        \item 重复上述第 2 步，直到所有的元素都被删除；
+        \item 没有建立起对应关系的元素与空元素对应。 
+      \end{enumerate}
+      集合之间的相似度等于其元素对的相似度的平均值
     \end{frame}
 
-    \begin{frame}{特征结构的相似度计算}
-      
+    \begin{frame}{特征结构之间的相似度计算}
+      特征结构是“属性-值”对的集合
+      \begin{itemize}
+        \item 将两个特征结构之间相同的属性一一对应
+        \item 计算每个“属性-值”对的相似度，即计算其“值”的相似度
+        \item 特征结构之间的相似度就等于所有“属性-值”对的相似度的平均值
+      \end{itemize}
     \end{frame}
 
     \begin{frame}{实词概念的相似度计算}
       实词概念的描述可以表示为一个特征结构，包括以下四个特征：
       \begin{itemize}
-        \item 第一基本义原描述：其值为一个基本义原，这一部分的相似度记为$Sim_1(S_1,S_2)$；
-        \item 其它基本义原描述：除第一基本义原描述式以外的所有基本义原描述式，其值为一个基本义原的集合，这一部分的相似度记为$Sim_2(S_1,S_2)$；
+        \item 第一基本义原：其值为一个基本义原，这一部分的相似度记为$Sim_1(S_1,S_2)$；
+        \item 其它基本义原：除第一基本义原以外的所有基本义原，其值为一个基本义原的集合，这一部分的相似度记为$Sim_2(S_1,S_2)$；
         \item 关系义原描述：对应所有的关系义原描述式，其值是一个特征结构，对于该特征结构的每一个特征，其属性是一个关系义原，其值是一个基本义原，或一个具体词。这一部分的相似度记为$Sim_3(S_1,S_2)$；
         \item 关系符号描述：对应所有的关系符号描述式，其值也是一个特征结构，对于该特征结构的每一个特征，其属性是一个关系义原，其值是一个集合，该集合的每个元素是一个基本义原，或一个具体词。这一部分的相似度记为$Sim_4(S_1,S_2)$。 
     \end{itemize}
@@ -489,10 +506,10 @@ appropriate for this post. Comment 4 states that the current score is still 0:0,
       \end{itemize}
     \end{frame}
 
-    \begin{frame}{Similarity Feature}
+    \begin{frame}{Similarity Features}
       \begin{itemize}
         \item LSA (Latent Semantic Analysis)
-        \item LDA (Latent Dirichlet allocation)
+        \item LDA (Latent Dirichlet Allocation)
         \item Word2Vec
         \item LSTM-Sen2Vec
       \end{itemize}
@@ -582,13 +599,100 @@ appropriate for this post. Comment 4 states that the current score is still 0:0,
       \end{itemize}
     \end{frame}
 
-    \begin{frame}{TextRank}
+    \begin{frame}{TextRank - A graph-based ranking model}
+      Formally, let $G = (V; E)$ be a undirected graph with the set of vertices 
+      $V$ and and set of edges $E$, where $E$ is a subset of $V \times V$. For 
+      a given $V_i$, let $link(V_i)$ be the set of vertices that linked with 
+      it. The score of a vertex $Vi$ is define as follow:
+      \begin{equation}
+        WS(V_i) = (1 - d) + d * \sum_{j \in link(V_i)}{w_{ij} * WS{V_j}}
+      \end{equation}
+      Where $d$ is a damping factor\footnotemark that is usually set to 0.85.
+
+      \footnotetext{Brin, Sergey, and L. Page. The anatomy of a large-scale hypertextual Web search engine. International Conference on World Wide Web Elsevier Science Publishers B. V. 1998:107-117.}
     \end{frame}
 
-    \begin{frame}{Ranking}
-      Inspired by PageRank. \newline
+    \begin{frame}{TextRank - Vertices and Edges}
+      \begin{itemize}
+        \item Vertices: each unique word in candidates
+        \item Edges: a co-occurrence relation
+        \item Weighted by: word2vec similarity between two words and the number of their cooccurrences
+      \end{itemize}
+    \end{frame}
 
-      For $N$ candidates, we construct $ N \times N $ matrix C. $C_{ij} = sim(candidate_i, candidate_j)$. Then we compute iteratively
+    \begin{frame}{TextRank - Calculate Iteratively}
+      For $N$ candidates, $k$ words in total, we construct $ k \times k $ 
+      matrix $M$. $M_{ij} = cnt * sim(D_i, D_j)$. Then we compute iteratively
+      \[
+      R(t+1) = 
+      \begin{bmatrix}
+          (1-d)/k       \\
+          (1-d)/k       \\
+          \hdotsfor{1} \\
+          (1-d)/k       
+      \end{bmatrix}
+      +d
+      \begin{bmatrix}
+          M_{11} & M_{12} & M_{13} & \dots  & M_{1k} \\
+          M_{21} & M_{22} & M_{23} & \dots  & M_{2k} \\
+          \vdots & \vdots & \vdots & \ddots & \vdots \\
+          M_{k1} & M_{k2} & M_{k3} & \dots  & M_{kk}
+      \end{bmatrix}
+      R(t)
+      \]
+      $R(0) = [IDF(D_0) \ IDF(D_1) \ ... \ IDF(D_{k-1})]^T$ \newline
+      Stop when $|R(t+1)-R(t)|<\epsilon$, $\epsilon = 10^{-7}$
+    \end{frame}
+
+    \begin{frame}{TextRank - Ranking}
+      Since we get the score $R(D_i)$ for each word $D_i$ in candidates, the 
+      score for each comment candidate $c$ is calculated as:
+      \begin{equation}
+        Rank_{TextRank}(c) = \frac{\sum_{D_i \in c}{R(D_i)}}{len(c)} 
+      \end{equation}
+      where, $len(c)$ refers to the number of words in comment c.
+    \end{frame}
+
+    \begin{frame}{Pattern-IDF}
+      For word $D_i$ in corresponding comment given word $D_j$ in the post, we 
+      define Pattern-IDF as:
+      \begin{equation}
+        PI(D_i|D_j) = 1 / \log_2{\frac{count_c(D_i) * count_p(D_j)}{1+count_{pair}(D_i, D_j)}}
+      \end{equation}
+      Here $count_c$ refers to the number of occurrence in comments, $count_p$ in posts, $count_{pair}$ in post-comment pair.
+
+      Normalized $PI$:
+      \begin{equation}
+        PI_{norm}(D_i|D_j) = \frac{PI(D_i|D_j)}{\sum_{k=1}^n{PI(D_k|D_j)}}
+      \end{equation}
+    \end{frame}
+
+    \begin{frame}{PI - Ranking}
+      For each comment $c$ in candidates, given a query (new post) $q$, we 
+      calculate the score by $PI$ as follow:
+      \begin{equation}
+        Score_{PI}(q, c) = \frac{\sum_{D_j \in q}{\sum_{D_i \in c}{PI(D_i|D_j)}}}{len(c) * len(q)}
+      \end{equation}
+      Then we define rank score as follow:
+      \begin{equation}
+        Rank_{PI} = (1 + Score_{PI}(q, c)) * Sim_{W2V}(q, c)*Sim_{LSA}(q, c)  
+      \end{equation}
+    \end{frame}
+
+    \begin{frame}{TextRank + Pattern-IDF}
+      In this method, We add each comment sentence in candidates as a vertex in the graph and use sentence Word2Vec similarity as edges between vertices in the graph.
+
+      For $N$ candidates, we construct $ N \times N $ matrix $M$. $M_{ij} = SIM_{w2v}(candidate_i, candidate_j)$. 
+
+      At time $t = 0$, We initiate a N-dimension vector $P$ , here $N$ is the number 
+      of comment candidates. And each entry of $P$ is defined as the score of Pattern-IDF between the query (new post) $q$ and corresponding comment $c_i$ in candidates:
+      \begin{equation}
+        P_i = Score_{PI}(q, c_i)
+      \end{equation}
+    \end{frame}
+
+    \begin{frame}{TextRank + Pattern-IDF}
+      Then we compute iteratively
       \[
       R(t+1) = 
       \begin{bmatrix}
@@ -599,16 +703,52 @@ appropriate for this post. Comment 4 states that the current score is still 0:0,
       \end{bmatrix}
       +d
       \begin{bmatrix}
-          C_{11} & C_{12} & C_{13} & \dots  & C_{1N} \\
-          C_{21} & C_{22} & C_{23} & \dots  & C_{2N} \\
+          M_{11} & M_{12} & M_{13} & \dots  & M_{1N} \\
+          M_{21} & M_{22} & M_{23} & \dots  & M_{2N} \\
           \vdots & \vdots & \vdots & \ddots & \vdots \\
-          C_{N1} & C_{N2} & C_{N3} & \dots  & C_{NN}
+          M_{N1} & M_{N2} & M_{N3} & \dots  & M_{NN}
       \end{bmatrix}
       R(t)
       \]
-      $R(0) = [1/N \ 1/N \ ... \ 1/N]^T$ \newline
-      Stop when $|R(t+1)-R(t)|<\epsilon$
+      Stop when $|R(t+1)-R(t)|<\epsilon$, $\epsilon = 10^{-7}$
+
+      Finally, we get the score $P_i$ for each comment in candidates. 
     \end{frame}
+
+  \begin{frame}{Experimental Result}
+      \begin{enumerate}
+  \item{Nders-C-R5: } Use LDA, Word2Vec and LSTM-Sen2Vec to retrieve similar posts 
+  and get corresponding comments, LDA and Word2Vec to retrieve appropriate comments 
+  from all comments, combine and rank them with $Score_{q,c}^1(q, c)$ and get top-10 comments as results.
+  \item{Nders-C-R4: } Use LSA, Word2Vec and LSTM-Sen2Vec to retrieve similar posts 
+  and get corresponding comments, LSA and Word2Vec to retrieve appropriate comments 
+  from all comments, combine and rank them with $Score_{q,c}^2(q, c)$ and  get top-10 comments as results.
+  \item{Nders-C-R3: } TextRank rank candidates from R4
+  \item{Nders-C-R2: } Pattern-IDF rank candidates from R4
+  \item{Nders-C-R1: } TextRank + Pattern-IDF rank candidates from R4
+\end{enumerate}
+    \end{frame}
+
+  \begin{frame}{Official Result}
+    \begin{table}
+\centering
+\caption{The official results of five runs for Nders team}
+\label{tab:commands}
+\begin{minipage}{\columnwidth}
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+ Run        &  Mean nG@1  &  Mean P+  &  Mean nERR@10  \\ \hline
+ Nders-C-R1 & 0.4593 & 0.5394 & 0.5805 \\ \hline
+ Nders-C-R2 & 0.4743 & \textbf{0.5497} & \textbf{0.5882} \\ \hline
+ Nders-C-R3 & 0.4647 & 0.5317 & 0.5768 \\ \hline
+ Nders-C-R4 & \textbf{0.4780} & 0.5338 & 0.5809 \\ \hline
+ Nders-C-R5 & 0.4550 & 0.5495 & 0.5868 \\ \hline
+\end{tabular}
+\end{center}
+\end{minipage}
+\end{table}
+  \end{frame}
 
   \begin{frame}[standout]
     Questions?

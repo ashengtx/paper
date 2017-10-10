@@ -326,25 +326,38 @@ the input sentence which is 600-dimension.
 \subsection{Candidates Generation}
 
 \subsubsection{Similar Posts}
-Based on a hypothesis that similar posts has similar corresponding comments, we firstly find top-10 similar posts with a ranking score combining LSA, Word2Vec, and LSTM model:
+Based on a hypothesis that similar posts has similar corresponding comments, we firstly find top-10 similar posts with a ranking score combining LSA, LDA, Word2Vec, and LSTM model:
 \begin{equation}
-   Score_{q,p}(q, p) = Sim_{LSA}(q, p) * Sim_{W2V}(q, p) * Sim_{LSTM}(q, p)
+   Score_{q,p}^1(q, p) = Sim_{LDA}(q, p) * Sim_{W2V}(q, p) * Sim_{LSTM}(q, p)
+\end{equation}
+\begin{equation}
+   Score_{q,p}^2(q, p) = Sim_{LSA}(q, p) * Sim_{W2V}(q, p) * Sim_{LSTM}(q, p)
 \end{equation}
 Here, $q$ denotes the query(the new post) $p$ denote the post from repository.
 
-Then, we get corresponding comments to the top-10 similar posts as first comment candidates, denoted as $C_1$.
+Then, we get corresponding comments to the top-10 similar posts by Eq.12 as 
+first comment candidates, denoted as $C_1$, and corresponding comments by 
+Eq.13 as second comment candidates, denoted as $C_2$.
 
 \subsubsection{Comment Candidates}
-Since Word2Vec model captures semantic similarity, LSA or LDA reflects topic relateness, we combine LSA or LDA with Word2Vec respectively to directly retrieve top-N appropriate comments to the new post from all comments in the repository. N is equal to the number of comment candidates $C_1$. 
+Since Word2Vec model captures semantic similarity, LSA or LDA reflects topic relateness, we combine LSA or LDA with Word2Vec respectively to directly retrieve top-N appropriate comments to the new post from all comments in the repository. N is equal to the number of comment candidates $C_1$ or $C_2$. 
 \begin{equation}
-   Score_{q,c}^1(q, c) = Sim_{LSA}(q, c) * Sim_{W2V}(q, c)
+   Score_{q,c}^1(q, c) = Sim_{LDA}(q, c) * Sim_{W2V}(q, c)
 \end{equation}
 \begin{equation}
-   Score_{q,c}^2(q, c) = Sim_{LDA}(q, c) * Sim_{W2V}(q, c)
+   Score_{q,c}^2(q, c) = Sim_{LSA}(q, c) * Sim_{W2V}(q, c)
 \end{equation}
 Here, $q$ denotes the query(the new post), $c$ denotes the comment from repository.
 
-We combine the retrived top-N comments by Word2Vec model and LSA (or LDA) model with $C_1$ as final comment candidats for further ranking.
+We combine the retrived top-N comments by Eq.14 with candidates $C_1$ as our 
+first final candidates. Then we rank them with $Score_{q,c}^1(q, c)$ and get 
+top-10 comments as our results of Nders-C-R5.
+
+We combine the retrived top-N comments by Eq.15 with candidates $C_2$ as our 
+second final candidates. Then we rank them with $Score_{q,c}^2(q, c)$ and get 
+top-10 comments as our results of Nders-C-R4.
+
+Our results of R3, R2, R1 are based on the second final candidates from R4.
 
 \subsection{Ranking}
 
@@ -397,7 +410,7 @@ Therefore, the $w_{ij}$ is defined as
   w_{ij} = cnt * Sim(D_i, D_j)
 \end{equation}
 When we scan the candidates sentence by sentence, if the word $D_i$ and $D_j$ 
-co-occur within the window, the count for them increases by 1. The $cnt$ in Eq.16
+co-occur within the window, the count for them increases by 1. The $cnt$ in Eq.17
 refers to the total count after scanning.
 
 Then, we construct a $k \times k$ matrix $\bm{M}$, defined as
@@ -436,20 +449,26 @@ other words, for the corresponding comments of similar posts, the word
 distribution may also be similar. Therefore, we can use word distribution of 
 the corresponding comments of post in the repository to infer that of the new post. We present a new model, Pattern-IDF (PI).
 
-For word $D_i$ in corresponding comment given word $D_j$ in post, we define PI as:
+For word $D_i$ in corresponding comment given word $D_j$ in the post, we define $PI$ as:
 \begin{equation}
   PI(D_i|D_j) = 1 / \log_{2}{\frac{count_c(D_i) * count_p(D_j)}{count_{pair}(D_i, D_j) + 1}}
 \end{equation}
 Here $count_c$ refers to the number of occurrence in comments, $count_p$ in posts, $count_{pair}$ in post-comment pair.
 
-Table 2 shows some example of Pattern-IDF.
+Then, we normalize PI with dividing it by the summation of $PI$ for all words 
+in corresponding comment given word $D_j$ in the post,
+\begin{equation}
+  PI_{norm}(D_i|D_j) = \frac{PI(D_i|D_j)}{\sum_{k=1}^n{PI(D_k|D_j)}}
+\end{equation}
+
+For convenience, all the $PI$ below refers to $PI_{norm}$. Table 2 shows some example of Pattern-IDF.
 \begin{table}[]
 \centering
 \caption{The example of Pattern-IDF}
 \label{my-label}
 \begin{tabular}{lll}
 \hline
- $D_j$ & $D_i$ & PI \\ \hline
+ $D_j$ & $D_i$ & $PI$ \\ \hline
  \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}接通\end{CJK}   & 0.071725 \\ \hline
  \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & cmcc                                  & 0.067261 \\ \hline
  \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}资费\end{CJK}   & 0.062408 \\ \hline
@@ -565,16 +584,20 @@ more front of the ranking list of retrieved candidates.
 We submitted five runs for comparison and analysis:
 
 \begin{enumerate}
-  \item{Nders-C-R5: } Use $Sim_{W2V}*Sim_{LDA}$ as a ranking score to directly 
-  retrieve and get top-10 comments from all comments.
-  \item{Nders-C-R4: } Use $Sim_{W2V}*Sim_{LSA}$ as a ranking score to directly 
-  retrieve and get top-10 comments from all comments.
+  \item{Nders-C-R5: } Use LDA, Word2Vec and LSTM-Sen2Vec to retrieve similar posts 
+  and get corresponding comments, LDA and Word2Vec to retrieve appropriate comments 
+  from all comments, combine and rank them with $Score_{q,c}^1(q, c)$ and get top-10 comments as results.
+  \item{Nders-C-R4: } Use LSA, Word2Vec and LSTM-Sen2Vec to retrieve similar posts 
+  and get corresponding comments, LSA and Word2Vec to retrieve appropriate comments 
+  from all comments, combine and rank them with $Score_{q,c}^2(q, c)$ and  get top-10 comments as results.
   \item{Nders-C-R3: } Use graph-based algorithm TextRank with words as vertices
-  in the graph, and use score $Rank_{TextRank}$ to rank comment in the 
-  candidates and get top-10 comments.
-  \item{Nders-C-R2: } Use $Rank_{PI}$ as a ranking score to get top-10 comments from comment candidates.
-  \item{Nders-C-R1: } Use graph-based algorithm TextRank with comments as vertices in the graph and Pattern-IDF as initiate score for each comment to 
-  rank the comment in the candidates and get top-10 comments.
+  in the graph, and use score $Rank_{TextRank}$ to rank the comment candidates 
+  from R4 and get top-10 comments.
+  \item{Nders-C-R2: } Use $Rank_{PI}$ as a ranking score to rank comment 
+  candidates from R4 and get top-10 comments.
+  \item{Nders-C-R1: } Use graph-based algorithm TextRank with comments as 
+  vertices in the graph and Pattern-IDF as initiate score for each comment to 
+  rank the comment candidates from R4 and get top-10 comments.
 \end{enumerate}
 
 \begin{table}
