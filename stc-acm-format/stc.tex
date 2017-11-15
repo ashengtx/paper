@@ -133,7 +133,8 @@ Short Text ID & test-post-10440 \\
 \noalign{\smallskip}
 \hline
 \noalign{\smallskip}
-Raw Text          & \begin{CJK}{UTF8}{bsmi}去到美國，\begin{CJK}{UTF8}{gbsn}还\end{CJK}是吃中餐！宮保雞丁家的感覺～\end{CJK}  \\
+Raw Text          & \begin{CJK}{UTF8}{bsmi}去到美國，\begin{CJK}{UTF8}{gbsn}还\end{CJK}是吃中餐！宮保雞丁家的感覺～\end{CJK}  \\ 
+ & Go to the USA, still eat Chinese food, Kung Pao Chicken, feeling like at home \\
 \hline
 \noalign{\smallskip}
 Without T-S Conversion  & \begin{CJK}{UTF8}{bsmi}去 到 美 國 , \begin{CJK}{UTF8}{gbsn}还\end{CJK} 是 吃 中餐 ! 宮 保 雞 丁 家 的 感 覺 \end{CJK} \~{} \\
@@ -253,7 +254,7 @@ Where $W_f, W_i, W_c, W_o, b_f, b_i, b_c, b_o$ refer to corresponding weights an
   \caption{The repeating module in an LSTM contains four interacting layers.}
 \end{figure}
 
-Mikolov\cite{Mikolov2} and Zaremba\cite{Zaremba} use LSTM to predict the next 
+Mikolov\cite{Mikolov2} and Zaremba et al.\cite{Zaremba} use LSTM to predict the next 
 word given the previous words as input and achieve a good perplexity. Inspired 
 by their architecture of LSTM, we can use the vector of the final cell state to 
 represent a sentence by feeding its words as input in sequence.
@@ -276,7 +277,7 @@ model may assign much more weight to the end of a sentence.
 \begin{figure}
   \centering
   \includegraphics[height=1.5in, width=3.15in]{unilstm.png}
-  \caption{The unidirectional LSTM}{We append an end token \emph{<E>} in the end of word sequence to fix the length of input and output}
+  \caption{The unidirectional LSTM}{We append an end token \emph{<E>} in the end of word sequence to fix the length of input and output. \\ “\begin{CJK}{UTF8}{gbsn}支持一下国产手机\end{CJK}” means: support the domestic mobile phone.}
 \end{figure}
 
 To overcome the unbalance, we replace unidirectional LSTM with bidirectional 
@@ -288,7 +289,7 @@ predict different words given the same word (such as “\begin{CJK}{UTF8}{gbsn}�
 \begin{figure}
   \centering
   \includegraphics[height=1.5in, width=2.81in]{bilstm1.png}
-  \caption{The Traditional Bidirectional LSTM}
+  \caption{The Traditional Bidirectional LSTM}{“\begin{CJK}{UTF8}{gbsn}支持一下国产手机\end{CJK}” means: support the domestic mobile phone.}
 \end{figure}
 
 \begin{table}
@@ -317,7 +318,7 @@ vector of Word2Vec model as the cost of neural networks. The word-level perplexi
   \centering
   \includegraphics[height=3in, width=6.21in]{bilstm2.png}
   \caption{The Modified Bidirectional LSTM}{In order to align the outputs of forward and backward direction, we append the first output value (indicates start token \emph{<S>}) of  
-  backward direction to the outputs of forward, and append the last output value (indicates end token \emph{<E>}) of forward direction to the outputs of backward.}
+  backward direction to the outputs of forward, and append the last output value (indicates end token \emph{<E>}) of forward direction to the outputs of backward.}{“\begin{CJK}{UTF8}{gbsn}支持一下国产手机\end{CJK}” means: support the domestic mobile phone.}
 \end{figure*}
 
 Finally, we concatenate the final cell states of two direction as the vector of 
@@ -363,7 +364,7 @@ Our results of R3, R2, R1 are based on the second final candidates from R4.
 
 \subsubsection{TextRank}
 
-TextRank\cite{Mihalcea} is a graph-bsed ranking model for text processing. 
+TextRank\cite{Mihalcea} is a graph-based ranking model for text processing. 
 Graph-based ranking algorithms are essentially a
 way of deciding the importance of a vertex within
 a graph, based on global information recursively
@@ -469,15 +470,16 @@ For convenience, all the $PI$ below refers to $PI_{norm}$. Table 2 shows some ex
 \begin{tabular}{lll}
 \hline
  $D_j$ & $D_i$ & $PI$ \\ \hline
- \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}接通\end{CJK}   & 0.071725 \\ \hline
+ \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} (China Mobile) & \begin{CJK}{UTF8}{gbsn}接通\end{CJK} (connect)   & 0.071725 \\ \hline
  \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & cmcc                                  & 0.067261 \\ \hline
- \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}资费\end{CJK}   & 0.062408 \\ \hline
- \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}营业厅\end{CJK} & 0.059949 \\ \hline
- \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}漫游\end{CJK}   & 0.059234 \\ \hline
+ \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}资费\end{CJK} (Charges)   & 0.062408 \\ \hline
+ \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}营业厅\end{CJK} (business Hall
+) & 0.059949 \\ \hline
+ \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}漫游\end{CJK} (roam)   & 0.059234 \\ \hline
  ... & ...  & ...  \\ \hline
- \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}我\end{CJK}    & 0.028889 \\ \hline
- \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}是\end{CJK}    & 0.027642 \\ \hline
- \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}的\end{CJK}    & 0.026346 \\ \hline
+ \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}我\end{CJK} (me)   & 0.028889 \\ \hline
+ \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}是\end{CJK} (be)   & 0.027642 \\ \hline
+ \begin{CJK}{UTF8}{gbsn}中国移动\end{CJK} & \begin{CJK}{UTF8}{gbsn}的\end{CJK} (of)   & 0.026346 \\ \hline
 \end{tabular}
 \end{table}
 
@@ -526,10 +528,9 @@ the top-10 comments are obtained as our Nders-C-R2 results.
 \section{Experiments}
 
 \subsection{Data Set}
-Table 4 shows the statistics of the retrieval repository, training
-data and test data. There are 219,174 Weibo posts and the
+The repository consist of 219,174 Weibo posts and the
 corresponding 4,305,706 comments. There are 4,433,949 post-comment
-pairs. So each post has 20 different comments on
+pairs in total. So each post has 20 different comments on
 average, and one comment can be used to respond to multiple
 different posts. 
 
@@ -544,31 +545,9 @@ it is not the two former cases.
 runs to the task. In each run, a ranking list of ten comments for
 each test query is requested. 
 
-\begin{table}
-\centering
-\caption{Statistics of dataset for Chinese subtask}
-\label{my-label}
-\begin{minipage}{\columnwidth}
-\begin{center}
-\begin{tabular}{|l@{\quad}|l@{\quad}|@{\quad}r|}
-\hline
-\multirow{3}{*}{Repository}
-                  & \#posts           & 219,174   \\ \cline{2-3} 
-                  & \#comments        & 4,305,706 \\ \cline{2-3} 
-                  & \#original pairs  & 4,433,949 \\ \hline
-\multirow{3}{*}{Training Data} 
-                  & \#posts           & 769       \\ \cline{2-3} 
-                  & \#comments        & 11,535    \\ \cline{2-3} 
-                  & \#labeled pairs   & 11,535    \\ \hline
-Test Data         & \#query posts     & 100       \\ \hline
-\end{tabular}
-\end{center}
-\end{minipage}
-\end{table}
-
 \subsection{Evaluation Measures}
 Following the NTCIR-12 STC-1 Chinese subtask, three evaluation measures are
-used: nG@1 (normalised gain at cut-off 1), P+, and nERR@10 (normalised expected reciprocal rank at cutoff 10)\cite{Lifeng}\cite{Lifeng-13}.
+used: nG@1 (normalised gain at cut-off 1), P+, and nERR@10 (normalised expected reciprocal rank at cut-off 10)\cite{Lifeng}\cite{Lifeng-13}.
 
 nG@1 shows the quantity of effective result in the retrieved candidates. 
 
@@ -631,9 +610,93 @@ effectiveness of the Pattern-IDF we devised.
 However, the results of R3 are worse than that of R4 for all three metrics, 
 which shows TextRank is not helpful for candidates ranking in this task.
 
-Compare the result of R4 and R5, we find that for Mean P+ and Mean nERR@10 the 
-result of R5 is better than that of R4, which shows LDA model outperforms LSA 
-model in this task.
+%Compare the result of R4 and R5, we find that for Mean P+ and Mean nERR@10 the 
+%result of R5 is better than that of R4, which shows LDA model outperforms LSA 
+%model in this task.
+
+Moreover, we conduct a per-topic analysis. We classify 100 test posts according to their topics, including animal, philosophy, weather, entertainment, emotion, travel, technology, sports, art, diet and others. Then, for each topic, we calculate the mean value of each run for three evaluation metrics respectively, shown as Table5-Table7. 
+
+Results show that, the standard deviation of R5 (with LDA model) is bigger than R4 (with LSA model ) and other runs.  
+Though in some topics such as animal, sports, and diet, the 
+mean value for each metric is significantly high than other topic, however, in other topics, the mean value is rather small. It is because that the LDA vector is sparse, that is, most of entries of the vector is zero. Which results that the cosine similarity of two LDA vector is either close to 1 (high topic related) or close to 0 (topic not related).
+
+It suggests that LDA model is unstable over topics. Which is also why we choose the candidates from R4 for further ranking by R1, R2 and R3.  
+
+\begin{table*}[]
+\centering
+\caption{Per-topic analysis for mean nG@1}
+\label{my-label}
+\begin{tabular}{llllll}
+\hline
+Topic & Nders-C-R1 & Nders-C-R2 & Nders-C-R3 & Nders-C-R4 & Nders-C-R5 \\
+\hline
+animal(4) & 0.5000 & 0.4167 & 0.5417 & 0.5417 & \textbf{0.6667} \\
+philosophy(7) & 0.3333 & \textbf{0.4286} & 0.3333 & 0.3333 & 0.1667 \\
+weather(3) & 0.2778 & 0.2778 & 0.2778 & 0.2778 & 0.2778 \\
+entertainment(2) & \textbf{0.4167} & \textbf{0.4167} & 0.3333 & 0.3333 & 0.1667 \\
+emotion(23) & 0.4768 & \textbf{0.5493} & 0.5130 & 0.5275 & 0.5130 \\
+travel(4) & \textbf{0.5834} & 0.5000 & 0.5000 & 0.5000 & 0.4583 \\
+technology(9) & \textbf{0.3889} & 0.2963 & 0.3704 & 0.3704 & 0.2482 \\
+sports(5) & 0.2867 & 0.4533 & 0.3600 & 0.3933 & \textbf{0.6933} \\
+art(5) & 0.5000 & 0.5000 & 0.4000 & \textbf{0.5667} & 0.4333 \\
+diet(16) & 0.5000 & 0.5000 & 0.5521 & 0.5521 & \textbf{0.6771} \\
+other(22) & \textbf{0.5091} & 0.5015 & 0.4864 & 0.4864 & 0.3712 \\
+\hline
+std.   &   0.1007 &    \textbf{0.0865} &    0.0965 &    0.1040 &    0.1980 \\
+\hline
+
+\end{tabular}
+\end{table*}
+
+\begin{table*}[]
+\centering
+\caption{Per-topic analysis for mean nERR@10}
+\label{my-label}
+\begin{tabular}{llllll}
+\hline
+Topic & Nders-C-R1 & Nders-C-R2 & Nders-C-R3 & Nders-C-R4 & Nders-C-R5 \\
+\hline
+animal(4) & 0.6143 & 0.5868 & 0.6344 & 0.6359 & \textbf{0.7459} \\
+philosophy(7) & 0.5015 & \textbf{0.5489} & 0.4704 & 0.4735 & 0.3721 \\
+weather(3) & 0.4089 & 0.4034 & 0.4000 & 0.4000 & \textbf{0.4893} \\
+entertainment(2) & 0.4932 & \textbf{0.4988} & 0.4551 & 0.4509 & 0.3394 \\
+emotion(23) & 0.5854 & 0.6297 & 0.6050 & 0.6076 & \textbf{0.6432} \\
+travel(4) & \textbf{0.6811} & 0.6487 & 0.6385 & 0.6435 & 0.5768 \\
+technology(9) & \textbf{0.5052} & 0.4518 & 0.4532 & 0.4545 & 0.4465 \\
+sports(5) & 0.4854 & 0.5466 & 0.5091 & 0.5203 & \textbf{0.7779} \\
+art(5) & 0.6475 & \textbf{0.6864} & 0.5828 & 0.6726 & 0.6399 \\
+diet(16) & 0.6537 & 0.6504 & 0.6976 & 0.6862 & \textbf{0.7716} \\
+other(22) & \textbf{0.5912} & 0.5777 & 0.5715 & 0.5703 & 0.4722 \\
+\hline
+std.   &   \textbf{0.0867} &  0.0881 &  0.0949 &  0.1006 &  0.1577 \\
+\hline
+\end{tabular}
+\end{table*}
+
+\begin{table*}[]
+\centering
+\caption{Per-topic analysis for mean P+}
+\label{my-label}
+\begin{tabular}{llllll}
+\hline
+Topic & Nders-C-R1 & Nders-C-R2 & Nders-C-R3 & Nders-C-R4 & Nders-C-R5  \\
+\hline
+animal(4) & 0.5594 & 0.5082 & 0.5507 & 0.5655 & \textbf{0.6805} \\
+philosophy(7) & 0.4711 & \textbf{0.5295} & 0.4256 & 0.4370 & 0.3556 \\
+weather(3) & 0.3927 & 0.3910 & 0.3869 & 0.3869 & \textbf{0.4749} \\
+entertainment(2) & \textbf{0.4087} & 0.3745 & 0.3517 & 0.3478 & 0.2511 \\
+emotion(23) & 0.5500 & 0.5959 & 0.5526 & 0.5561 & \textbf{0.6101} \\
+travel(4) & \textbf{0.6352} & 0.5919 & 0.5870 & 0.5870 & 0.5149 \\
+technology(9) & \textbf{0.5078} & 0.4475 & 0.4106 & 0.4081 & 0.4057 \\
+sports(5) & 0.4275 & 0.5312 & 0.4523 & 0.4647 & \textbf{0.7344} \\
+art(5) & 0.5887 & \textbf{0.6624} & 0.5566 & 0.6512 & 0.5929 \\
+diet(16) & 0.6080 & 0.6057 & 0.6580 & 0.6408 & \textbf{0.6923} \\
+other(22) & \textbf{0.5383} & 0.5251 & 0.5362 & 0.5253 & 0.4705 \\
+\hline
+std.  &  \textbf{0.0825}  &  0.0904  &   0.0964 &    0.1036 &    0.1521 \\
+\hline
+\end{tabular}
+\end{table*}
 
 \section{Conclusions}
 In this paper, we propose an approach for STC-2 task of NTCIR-13. The LSA,
@@ -654,12 +717,12 @@ mean nERR@10, which respectively rankes 4th, 5th, 5th among 22 teams.
 \begin{thebibliography}{5}
 
 \bibitem {Lifeng}
-Lifeng Shang, Tetsuya Sakai, Zhengdong Lu, Hang Li, Ryuichiro Higashinaka, Yusuke Miyao. 
-Overview of the NTCIR-12 Short Text Conversation Task, 2016.
+Lifeng Shang, Tetsuya Sakai, Zhengdong Lu, Hang Li, Ryuichiro Higashinaka, and Yusuke Miyao. 
+Overview of the NTCIR-12 Short Text Conversation Task, Proceedings of NTCIR-12, 2016.
 
 \bibitem {Lifeng-13}
-Lifeng Shang, Tetsuya Sakai, Hang Li, Ryuichiro Higashinaka, Yusuke Miyao, Yuki Arase, Masako Nomoto. 
-Overview of the NTCIR-13 Short Text Conversation Task, 2017.
+Lifeng Shang, Tetsuya Sakai, Hang Li, Ryuichiro Higashinaka, Yusuke Miyao, Yuki Arase, and Masako Nomoto. 
+Overview of the NTCIR-13 Short Text Conversation Task, Proceedings of NTCIR-13, 2017.
 
 \bibitem {Susan}
 Susan T. Dumais (2005). Latent Semantic Analysis. Annual Review of Information Science and Technology. 38: 188–230. 

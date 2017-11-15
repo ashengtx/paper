@@ -1,0 +1,27 @@
+Thank you for participating in STC-2. Some comments for improving your paper further:
+
+- Please cite our overview paper as follows (you missed the BOOKTITLE):
+
+@INPROCEEDINGS{shang17,
+ AUTHOR = "Lifeng Shang and Tetsuya Sakai and Hang Li and Ryuichiro Higashinaka and Yusuke Miyao and Yuki Arase and Masako Nomoto",
+ TITLE = "Overview of the {NTCIR}-13 Short Text Conversation Task",
+ BOOKTITLE = "Proceedings of NTCIR-13",
+ YEAR = {2017}
+}
+
+Also, include the BOOKTITLE for [1] as well.
+
+- It would be nice to have rough English translations in Tables 1,3 (and Figures 3,5).
+
+- Reference [7] is not a single author paper,
+so should be Zaremba et al.
+
+- Table 4 is unnecessary. This is the job of our overview paper.
+
+- It would be good to conduct statistical significance tests to compare your own runs.
+
+- It would be good to conduct a per-topic analysis - which runs perform well in which topics?
+
+
+See you in Tokyo!
+STC2 Organisers
