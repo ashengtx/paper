@@ -1,0 +1,307 @@
+\documentclass[aspectratio=169]{beamer}
+\usepackage{geometry}
+
+\usetheme{metropolis}           % Use metropolis theme
+\usefonttheme[onlymath]{serif}
+
+\usepackage{xeCJK}
+%\usepackage{CJKutf8}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{multicol}
+\usepackage[font=small,labelfont=bf]{caption}
+\DeclareCaptionFont{mysize}{\fontsize{7}{9.6}\selectfont}
+\captionsetup{font=mysize}
+
+\usepackage{textpos}
+
+\title{Nders at NTCIR-13 Short Text Conversation }
+%\date{\today}
+\author{Han Ni, Liansheng Lin, Ge Xu}
+\institute{NetDragon WebSoft Inc.}
+%\logo{\includegraphics[height=1.2cm,width=1.35cm]{logo}}
+
+\titlegraphic{\hspace*{11.2cm} \includegraphics[height=3cm,width=3.38cm]{logo}
+}
+
+\begin{document}
+  \maketitle
+
+  \addtobeamertemplate{frametitle}{}{%
+  \begin{textblock*}{100mm}(.96\textwidth,-1.1cm)
+  \includegraphics[height=1.2cm,width=1.35cm]{logo}
+  \end{textblock*}}
+
+    \begin{frame}{System Architecture}
+      \begin{figure}
+      \includegraphics[width=15cm,height=4.96cm]{stc-flow-h.png}
+      \caption{System Architecture}
+      \end{figure}
+    \end{frame}
+
+    \begin{frame}{Preprocessing}
+      \begin{itemize}
+        \item Traditional-Simplified Chinese conversion
+        \item Convert Full-width characters into half-width ones
+        \item Replace number, time, url with token <\_NUM>, <\_TIME>, <\_URL> respectively
+        \item Word segmentation
+        \item Filter meaningless words and special symbols.
+      \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Preprocessing}
+      \begin{figure}
+      \includegraphics[width=14cm,height=3.68cm]{preprocessing-result.png}
+      %\caption{System Architecture}
+      \end{figure}
+    \end{frame}
+
+    \begin{frame}{Similarity Features}
+      \begin{itemize}
+        \item LSA (Latent Semantic Analysis)
+        \item LDA (Latent Dirichlet Allocation)
+        \item Word2Vec
+        \item LSTM-Sen2Vec
+      \end{itemize}
+    \end{frame}
+
+    \begin{frame}{LSTM}
+      \begin{columns}
+      \begin{column}[t]{0.6\textwidth}
+        \begin{equation}
+           f_t = \sigma(W_f \cdot [h_{t-1}, x_t] + b_f)
+        \end{equation}
+        \begin{equation}
+           i_t = \sigma(W_i \cdot [h_{t-1}, x_t] + b_i)
+        \end{equation}
+        \begin{equation}
+           \tilde{C}_t = tanh(W_C \cdot [h_{t-1}, x_t] + b_C) 
+        \end{equation}
+        \begin{equation}
+           C_t = f_t * C_{t-1} + i_t * \tilde{C}_t
+        \end{equation}
+        \begin{equation}
+           o_t = \sigma(W_o \cdot [h_{t-1}, x_t] + b_o)
+        \end{equation}
+        \begin{equation}
+           h_t = o_t * tanh(C_t)
+        \end{equation}
+      \end{column}
+
+      \begin{column}[t]{0.4\textwidth}
+        \begin{figure}
+        \includegraphics[width=1.8in,height=1.1in]{lstm2.png}
+        \caption{LSTM Cell}
+        \end{figure}
+      \end{column}
+
+      \end{columns}
+      
+    \end{frame}
+
+    \begin{frame}{LSTM-Sen2Vec}
+      \begin{columns}
+      \begin{column}[t]{0.5\textwidth}
+        \begin{figure}
+        \includegraphics[width=6.7cm,height=3.2cm]{unilstm.png}
+        \caption{The Unidirectional LSTM}
+        \end{figure}
+      \end{column}
+
+      \begin{column}[t]{0.5\textwidth}
+        \begin{figure}
+        \includegraphics[width=6cm,height=3.2cm]{bilstm1.png}
+        \caption{The Traditional Bidirectional LSTM}
+        \end{figure}
+      \end{column}
+
+      \end{columns}
+    \end{frame}
+
+    \begin{frame}{LSTM-Sen2Vec}
+      \begin{figure}
+        \includegraphics[width=12cm,height=6cm]{bilstm2.png}
+        \caption{The Modified Bidirectional LSTM}
+        \end{figure}
+    \end{frame}
+
+    \begin{frame}{Candidates Generation}
+      \begin{itemize}
+      \item Similar Posts
+      \begin{equation}
+         Score_{q,p}^1(q, p) = Sim_{LDA}(q, p) * Sim_{W2V}(q, p) * Sim_{LSTM}(q, p)
+      \end{equation}
+      \begin{equation}
+         Score_{q,p}^2(q, p) = Sim_{LSA}(q, p) * Sim_{W2V}(q, p) * Sim_{LSTM}(q, p)
+      \end{equation}
+      \item Comment Candidates
+      \begin{equation}
+         Score_{q,c}^1(q, c) = Sim_{LSA}(q, c) * Sim_{W2V}(q, c)
+      \end{equation}
+      \begin{equation}
+         Score_{q,c}^2(q, c) = Sim_{LDA}(q, c) * Sim_{W2V}(q, c)
+      \end{equation}
+    \end{itemize}
+    \end{frame}
+
+    \begin{frame}{Ranking}
+      \begin{itemize}
+        \item TextRank (Words as vertices)
+        \item Pattern-IDF
+        \item Pattern-IDF + TextRank (Sentences as vertices)
+      \end{itemize}
+    \end{frame}
+
+    \begin{frame}{TextRank - A graph-based ranking model}
+      Formally, let $G = (V; E)$ be a undirected graph with the set of vertices 
+      $V$ and and set of edges $E$, where $E$ is a subset of $V \times V$. For 
+      a given $V_i$, let $link(V_i)$ be the set of vertices that linked with 
+      it. The score of a vertex $Vi$ is define as follow:
+      \begin{equation}
+        WS(V_i) = (1 - d) + d * \sum_{j \in link(V_i)}{w_{ij} * WS{V_j}}
+      \end{equation}
+      Where $d$ is a damping factor\footnotemark that is usually set to 0.85.
+
+      \footnotetext{Brin, Sergey, and L. Page. The anatomy of a large-scale hypertextual Web search engine. International Conference on World Wide Web Elsevier Science Publishers B. V. 1998:107-117.}
+    \end{frame}
+
+    \begin{frame}{TextRank - Vertices and Edges}
+      \begin{itemize}
+        \item Vertices: each unique word in candidates
+        \item Edges: a co-occurrence relation
+        \item Weighted by: word2vec similarity between two words and the number of their cooccurrences
+      \end{itemize}
+    \end{frame}
+
+    \begin{frame}{TextRank - Calculate Iteratively}
+      For $N$ candidates, $k$ words in total, we construct $ k \times k $ 
+      matrix $M$. $M_{ij} = cnt * sim(D_i, D_j)$. Then we compute iteratively
+      \[
+      R(t+1) = 
+      \begin{bmatrix}
+          (1-d)/k       \\
+          (1-d)/k       \\
+          \hdotsfor{1} \\
+          (1-d)/k       
+      \end{bmatrix}
+      +d
+      \begin{bmatrix}
+          M_{11} & M_{12} & M_{13} & \dots  & M_{1k} \\
+          M_{21} & M_{22} & M_{23} & \dots  & M_{2k} \\
+          \vdots & \vdots & \vdots & \ddots & \vdots \\
+          M_{k1} & M_{k2} & M_{k3} & \dots  & M_{kk}
+      \end{bmatrix}
+      R(t)
+      \]
+      $R(0) = [IDF(D_0) \ IDF(D_1) \ ... \ IDF(D_{k-1})]^T$ \newline
+      Stop when $|R(t+1)-R(t)|<\epsilon$, $\epsilon = 10^{-7}$
+    \end{frame}
+
+    \begin{frame}{TextRank - Ranking}
+      Since we get the score $R(D_i)$ for each word $D_i$ in candidates, the 
+      score for each comment candidate $c$ is calculated as:
+      \begin{equation}
+        Rank_{TextRank}(c) = \frac{\sum_{D_i \in c}{R(D_i)}}{len(c)} 
+      \end{equation}
+      where, $len(c)$ refers to the number of words in comment c.
+    \end{frame}
+
+    \begin{frame}{Pattern-IDF}
+      For word $D_i$ in corresponding comment given word $D_j$ in the post, we 
+      define Pattern-IDF as:
+      \begin{equation}
+        PI(D_i|D_j) = 1 / \log_2{\frac{count_c(D_i) * count_p(D_j)}{1+count_{pair}(D_i, D_j)}}
+      \end{equation}
+      Here $count_c$ refers to the number of occurrence in comments, $count_p$ in posts, $count_{pair}$ in post-comment pair.
+
+      Normalized $PI$:
+      \begin{equation}
+        PI_{norm}(D_i|D_j) = \frac{PI(D_i|D_j)}{\sum_{k=1}^n{PI(D_k|D_j)}}
+      \end{equation}
+    \end{frame}
+
+    \begin{frame}{PI - Ranking}
+      For each comment $c$ in candidates, given a query (new post) $q$, we 
+      calculate the score by $PI$ as follow:
+      \begin{equation}
+        Score_{PI}(q, c) = \frac{\sum_{D_j \in q}{\sum_{D_i \in c}{PI(D_i|D_j)}}}{len(c) * len(q)}
+      \end{equation}
+      Then we define rank score as follow:
+      \begin{equation}
+        Rank_{PI} = (1 + Score_{PI}(q, c)) * Sim_{W2V}(q, c)*Sim_{LSA}(q, c)  
+      \end{equation}
+    \end{frame}
+
+    \begin{frame}{TextRank + Pattern-IDF}
+      In this method, We add each comment sentence in candidates as a vertex in the graph and use sentence Word2Vec similarity as edges between vertices in the graph.
+
+      For $N$ candidates, we construct $ N \times N $ matrix $M$. $M_{ij} = SIM_{w2v}(candidate_i, candidate_j)$. 
+
+      At time $t = 0$, We initiate a N-dimension vector $P$ , here $N$ is the number 
+      of comment candidates. And each entry of $P$ is defined as the score of Pattern-IDF between the query (new post) $q$ and corresponding comment $c_i$ in candidates:
+      \begin{equation}
+        P_i = Score_{PI}(q, c_i)
+      \end{equation}
+    \end{frame}
+
+    \begin{frame}{TextRank + Pattern-IDF}
+      Then we compute iteratively
+      \[
+      R(t+1) = 
+      \begin{bmatrix}
+          (1-d)/N       \\
+          (1-d)/N       \\
+          \hdotsfor{1} \\
+          (1-d)/N       
+      \end{bmatrix}
+      +d
+      \begin{bmatrix}
+          M_{11} & M_{12} & M_{13} & \dots  & M_{1N} \\
+          M_{21} & M_{22} & M_{23} & \dots  & M_{2N} \\
+          \vdots & \vdots & \vdots & \ddots & \vdots \\
+          M_{N1} & M_{N2} & M_{N3} & \dots  & M_{NN}
+      \end{bmatrix}
+      R(t)
+      \]
+      Stop when $|R(t+1)-R(t)|<\epsilon$, $\epsilon = 10^{-7}$
+
+      Finally, we get the score $P_i$ for each comment in candidates. 
+    \end{frame}
+
+  \begin{frame}{Experiment}
+    \begin{itemize}
+      \item{Nders-C-R5: } LDA + Word2Vec + LSTM-Sen2Vec 
+      \item{Nders-C-R4: } LSA + Word2Vec + LSTM-Sen2Vec 
+      \item{Nders-C-R3: } R4 + TextRank (Words as vertices)
+      \item{Nders-C-R2: } R4 + Pattern-IDF 
+      \item{Nders-C-R1: } R4 + Pattern-IDF + TextRank (Sentences as vertices)
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Official Result}
+    \begin{table}
+\centering
+\caption{The official results of five runs for Nders team}
+\label{tab:commands}
+\begin{minipage}{\columnwidth}
+\begin{center}
+\begin{tabular}{|l|c|c|c|}
+\hline
+ Run        &  Mean nG@1  &  Mean P+  &  Mean nERR@10  \\ \hline
+ Nders-C-R1 & 0.4593 & 0.5394 & 0.5805 \\ \hline
+ Nders-C-R2 & 0.4743 & \textbf{0.5497} & \textbf{0.5882} \\ \hline
+ Nders-C-R3 & 0.4647 & 0.5317 & 0.5768 \\ \hline
+ Nders-C-R4 & \textbf{0.4780} & 0.5338 & 0.5809 \\ \hline
+ Nders-C-R5 & 0.4550 & 0.5495 & 0.5868 \\ \hline
+\end{tabular}
+\end{center}
+\end{minipage}
+\end{table}
+  \end{frame}
+
+  \begin{frame}[standout]
+    Questions?
+  \end{frame}
+
+\end{document}
+
