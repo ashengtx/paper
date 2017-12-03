@@ -452,20 +452,12 @@ the corresponding comments of post in the repository to infer that of the new po
 
 For word $D_i$ in corresponding comment given word $D_j$ in the post, we define $PI$ as:
 \begin{equation}
-  PI(D_i|D_j) = 1 / \log_{2}{\frac{count_c(D_i) * count_p(D_j)}{count_{pair}(D_i, D_j) + 1}}
+  PI(D_i|D_j) = 1 / \log_{2}{\frac{count_c(D_i) * count_p(D_j)}{count_{pair}(D_i, D_j)}}
 \end{equation}
-Here $count_c$ refers to the number of occurrence in comments, $count_p$ in posts, $count_{pair}$ in post-comment pair.
-
-Then, we normalize PI with dividing it by the summation of $PI$ for all words 
-in corresponding comment given word $D_j$ in the post,
-\begin{equation}
-  PI_{norm}(D_i|D_j) = \frac{PI(D_i|D_j)}{\sum_{k=1}^n{PI(D_k|D_j)}}
-\end{equation}
-
-For convenience, all the $PI$ below refers to $PI_{norm}$. Table 2 shows some example of Pattern-IDF.
+Here $count_c$ refers to the number of occurrence in comments, $count_p$ in posts, $count_{pair}$ in post-comment pair. The PI whose $count_{pair}$ less than 3 are eliminated. Table 3 shows some examples of Pattern-IDF.
 \begin{table}[]
 \centering
-\caption{The example of Pattern-IDF}
+\caption{The examples of Pattern-IDF}
 \label{my-label}
 \begin{tabular}{lll}
 \hline
@@ -491,7 +483,7 @@ For each comment $c$ in candidates, given a query (new post) $q$, we calculate t
 
 Then we define rank score as follow:
 \begin{equation}
-  Rank_{PI} = (1 + Score_{PI}(q, c)) * Sim_{W2V}(q, c)*Sim_{LSA}(q, c)  
+  Rank_{PI} = (1 + \frac{Score_{PI}(q, c)}{\max_c{Score_{PI}(q, c)}}) * Sim_{W2V}(q, c)*Sim_{LSA}(q, c)  
 \end{equation}
 
 Finally, we use $Rank_{PI}$ to rank the comment candidates and get top-10 comments as our Nders-C-R2 results for each given new post.
@@ -517,7 +509,7 @@ Then, we construct a $l \times l$ matrix $\bm{M}$, defined as
 
 At each time step, the computation yields:
 \begin{equation}
-  \bm{P(t+1)} = d\bm{M}\bm{P(t)} + \frac{1-d}{l} \bm{1}
+  \bm{P(t+1)} = d\bm{M}\bm{P(t)} + (1-d)\frac{\bm{P(0)}}{|\bm{P(0)}|}
 \end{equation}
 
 The computation ends when for some small $\epsilon$, $|\bm{P(t+1)} - \bm{P(t)} < \epsilon|$, Where we set $\epsilon = 10^{-7}$.
@@ -622,6 +614,18 @@ mean value for each metric is significantly high than other topic, however, in o
 
 It suggests that LDA model is unstable over topics. Which is also why we choose the candidates from R4 for further ranking by R1, R2 and R3.  
 
+
+
+\section{Conclusions}
+In this paper, we propose an approach for STC-2 task of NTCIR-13. The LSA,
+Word2Vec and LSTM-Sen2Vec model are used to find similar posts. The LSA and Word2Vec 
+model are used to retrieve comment candidates. A graph-based algorithm TextRank 
+and the Pattern-IDF we devised are applied to rank the candidates. Results show 
+that the Pattern-IDF we devised is effective for ranking while TextRank not, 
+and LDA model outperforms LSA model in retrieving candidates. Finally, our best 
+run achieves 0.4780(R4) for mean nG@1, 0.5497(R2) for mean P+, and 0.5882(R2) for 
+mean nERR@10, which respectively rankes 4th, 5th, 5th among 22 teams. 
+
 \begin{table*}[]
 \centering
 \caption{Per-topic analysis for mean nG@1}
@@ -697,17 +701,6 @@ std.  &  \textbf{0.0825}  &  0.0904  &   0.0964 &    0.1036 &    0.1521 \\
 \hline
 \end{tabular}
 \end{table*}
-
-\section{Conclusions}
-In this paper, we propose an approach for STC-2 task of NTCIR-13. The LSA,
-Word2Vec and LSTM-Sen2Vec model are used to find similar posts. The LSA and Word2Vec 
-model are used to retrieve comment candidates. A graph-based algorithm TextRank 
-and the Pattern-IDF we devised are applied to rank the candidates. Results show 
-that the Pattern-IDF we devised is effective for ranking while TextRank not, 
-and LDA model outperforms LSA model in retrieving candidates. Finally, our best 
-run achieves 0.4780(R4) for mean nG@1, 0.5497(R2) for mean P+, and 0.5882(R2) for 
-mean nERR@10, which respectively rankes 4th, 5th, 5th among 22 teams. 
-
 
 
 

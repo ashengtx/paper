@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.6.8)  2 NOV 2017 22:22
+This is pdfTeX, Version 3.14159265-2.6-1.40.16 (TeX Live 2015/Debian) (preloaded format=pdflatex 2017.6.8)  29 NOV 2017 23:29
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -922,7 +922,7 @@ msy/m/n/9 ^^C \OML/cmm/m/it/9 Sim[]\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 q; p\OT1/cmr
 [4 <./bilstm1.png>]
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 466.
+               Default added (so using `tbp') on input line 458.
 
 (/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.enc
 File: UTF8.enc 2015/04/18 4.8.4
@@ -1014,65 +1014,71 @@ File: UTF8.enc 2015/04/18 4.8.4
 (/usr/share/texmf/tex/latex/CJK/UTF8/UTF8.chr
 File: UTF8.chr 2015/04/18 4.8.4
 )
-Overfull \hbox (21.29343pt too wide) in paragraph at lines 470--484
+Overfull \hbox (21.29343pt too wide) in paragraph at lines 462--476
  [][] 
  []
 
+
+Overfull \hbox (19.35568pt too wide) detected at line 487
+\OML/cmm/m/it/9 Rank[] \OT1/cmr/m/n/9 = (1 + []) \OMS/cmsy/m/n/9 ^^C \OML/cmm/m
+/it/9 Sim[]\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 q; c\OT1/cmr/m/n/9 ) \OMS/cmsy/m/n/9
+ ^^C \OML/cmm/m/it/9 Sim[]\OT1/cmr/m/n/9 (\OML/cmm/m/it/9 q; c\OT1/cmr/m/n/9 )
+ []
+
 [5 <./bilstm2.png>]
-Overfull \hbox (3.66727pt too wide) in paragraph at lines 537--543
+Overfull \hbox (3.66727pt too wide) in paragraph at lines 529--535
 \T1/aer/m/n/9 com-ments la-beled with \T1/aer/m/it/9 suit-able\T1/aer/m/n/9 , \
 T1/aer/m/it/9 neu-tral\T1/aer/m/n/9 , and \T1/aer/m/it/9 un-suit-able\T1/aer/m/
 n/9 . \T1/aer/m/it/9 Suit-
  []
 
 
-Overfull \hbox (3.40117pt too wide) in paragraph at lines 566--569
+Overfull \hbox (3.40117pt too wide) in paragraph at lines 558--561
 []\T1/aer/m/n/9 Nders-C-R5:  Use LDA, Word2Vec and LSTM-Sen2Vec
  []
 
 
-Overfull \hbox (1.71806pt too wide) in paragraph at lines 569--572
+Overfull \hbox (1.71806pt too wide) in paragraph at lines 561--564
 []\T1/aer/m/n/9 Nders-C-R4:  Use LSA, Word2Vec and LSTM-Sen2Vec
  []
 
 
-Overfull \hbox (2.19229pt too wide) in paragraph at lines 569--572
+Overfull \hbox (2.19229pt too wide) in paragraph at lines 561--564
 \T1/aer/m/n/9 ments, LSA and Word2Vec to re-trieve ap-pro-pri-ate com-
  []
 
 
-Overfull \hbox (2.16829pt too wide) in paragraph at lines 575--577
+Overfull \hbox (2.16829pt too wide) in paragraph at lines 567--569
 \T1/aer/m/n/9 com-ment can-di-dates from R4 and get top-10 com-ments. 
  []
 
 
-Overfull \hbox (2.16829pt too wide) in paragraph at lines 577--580
+Overfull \hbox (2.16829pt too wide) in paragraph at lines 569--572
 \T1/aer/m/n/9 com-ment can-di-dates from R4 and get top-10 com-ments. 
  []
 
 
-Overfull \hbox (6.23663pt too wide) in paragraph at lines 588--597
+Overfull \hbox (6.23663pt too wide) in paragraph at lines 580--589
  [] 
  []
 
 [6]
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 625.
-
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 651.
-
-
-LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 676.
-
-
-Overfull \hbox (3.59612pt too wide) in paragraph at lines 702--710
+Overfull \hbox (3.59612pt too wide) in paragraph at lines 620--628
 \T1/aer/m/n/9 triev-ing can-di-dates. Fi-nally, our best run achieves 0.4780(R4
 )
  []
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 629.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 655.
+
+
+LaTeX Warning: No positions in optional float specifier.
+               Default added (so using `tbp') on input line 680.
 
 [7
 
@@ -1084,7 +1090,7 @@ LaTeX Warning: There were multiply-defined labels.
 Here is how much of TeX's memory you used:
  4792 strings out of 493029
  61509 string characters out of 6136235
- 137088 words of memory out of 5000000
+ 135088 words of memory out of 5000000
  7983 multiletter control sequences out of 15000+600000
  64492 words of font info for 116 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -1132,7 +1138,7 @@ pe1/arphic/gbsnu/gbsnu90.pfb></usr/share/texmf/fonts/type1/arphic/gbsnu/gbsnu99
 fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/
 urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri
 8a.pfb>
-Output written on stc.pdf (8 pages, 516800 bytes).
+Output written on stc.pdf (8 pages, 516244 bytes).
 PDF statistics:
  292 PDF objects out of 1000 (max. 8388607)
  187 compressed objects within 2 object streams

@@ -19,7 +19,7 @@
   \graphicspath{{figures/}}
   \title[]{Nders at the NTCIR-13 Short Text Conversation 2 Task}
   \author[]{Han Ni, Liansheng Lin, Ge Xu}
-  \institute[ND]{NetDragon WebSoft Inc.}
+  \institute[ND]{NetDragon Websoft Inc.}
   %\date{Jul. 31th, 2007}
 
 
@@ -68,7 +68,7 @@
                      & {\scriptsize Was this drawn by computer or hand-painted ?} \\
           \hline
            Comment 4 & {\scriptsize \begin{CJK}{UTF8}{gbsn}很有爱的画。是用手绘板画的么？\end{CJK} }\\ %\hline
-                     & {\scriptsize It's a lovely painting. Was it painted with a hand-painted board?} \\
+                     & {\scriptsize It's a lovely painting. Was it drawn with a hand-painted board?} \\
           \hline
   
           \end{tabular}
@@ -90,8 +90,8 @@
               \begin{itemize}
                 \item {\normalsize Convert traditional Chinese into simplified Chinese}
                 \item {\normalsize Convert full-width characters into half-width ones}
+                \item {\normalsize Word Segmentation (PKU standard)}
                 \item {\normalsize Replace all the number, datetime, url with token \_NUM, \_TIME, \_URL respectively}
-                \item {\normalsize Word Segmentation}
                 \item {\normalsize Filter meaningless words and symbols}
               \end{itemize}
             \end{block}
@@ -100,7 +100,7 @@
 
             \begin{block}{\Large Candidates Generation} 
               \begin{itemize}
-                \item {\normalsize Train Word2Vec, LSA, LDA and LSTM-Sen2Vec models on the repository and convert sentence into vector}
+                \item {\normalsize Train TF-IDF, Word2Vec, LSA, LDA and LSTM-Sen2Vec models on the repository and convert sentence into vector}
                 \item {\normalsize Use cosine similarity to calculate similarity between two vectors}
                 \item {\normalsize Retrieve similar posts with Word2Vec, LSA/LDA and LSTM-Sen2Vec models}
                 \item {\normalsize Get corresponding comments from the similar posts as part of comment candidates}
@@ -126,7 +126,7 @@
           \centering
           %\includegraphics[width=40cm, height=60cm]{stc-flow.png}
           \begin{figure}
-            \includegraphics[width=36cm, height=47.38cm]{stc-flow4.png}
+            \includegraphics[width=36cm, height=45.3cm]{stc-flow-v-big.png}
             \caption{System Architecture}
           \end{figure}
         \end{column}
@@ -149,9 +149,10 @@
            Nders-C-R3 & 0.4647 & 0.5317 & 0.5768 \\ %\hline
            Nders-C-R4 & \textbf{0.4780} & 0.5338 & 0.5809 \\ %\hline
            Nders-C-R5 & 0.4550 & 0.5495 & 0.5868 \\ \hline
+           R2 \ \ vs. \  R4  & $\downarrow$0.77\% & $\uparrow$1.26\% & $\uparrow$2.02\% \\ \hline
+
           \end{tabular}
           \end{table}
-          Details for each run:
           \begin{itemize}
             \item{Nders-C-R5: } LDA + Word2Vec + LSTM-Sen2Vec 
             \item{Nders-C-R4: } LSA + Word2Vec + LSTM-Sen2Vec 
@@ -170,10 +171,10 @@ and the Pattern-IDF we devised are applied to rank the candidates. Results show
 that the Pattern-IDF we devised is effective for ranking while TextRank not, 
 and LDA model outperforms LSA model in retrieving candidates. 
         \end{block}
-        \vskip0.8ex
+        \vskip1.2ex
 
         \begin{block}{Acknowledgement}
-          NetDragon WebSoft Inc. \\
+          NetDragon Websoft Inc. \\
           NTCIR-13 STC-2 Organizers
         \end{block}
 
