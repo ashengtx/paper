@@ -1,4 +1,4 @@
-\documentclass{beamer}
+\documentclass[aspectratio=169]{beamer} % aspectratio ppt比例
 
 \usetheme{metropolis}           % Use metropolis theme
 \usefonttheme[onlymath]{serif}
@@ -11,15 +11,31 @@
 \DeclareCaptionFont{mysize}{\fontsize{7}{9.6}\selectfont}
 \captionsetup{font=mysize}
 
-\title{工作总结}
+\usepackage{textpos}
+\usepackage{adjustbox}
+\usepackage{pdfpages}
+
+\newcommand\Fontvi{\fontsize{8}{7.2}\selectfont}
+
+\title{单词相似度计算与短文本对话的研究}
 \date{\today}
 \author{林连升}
 %\institute{福州大学 数学与计算机科学学院}
 
+% title page logo
+\titlegraphic{\hspace*{11.2cm} \includegraphics[height=3cm,width=3.38cm]{logo}
+}
+
 \begin{document}
   \maketitle
 
-  \begin{frame}{一些微小的工作}
+  % frame title logo
+  \addtobeamertemplate{frametitle}{}{%
+  \begin{textblock*}{100mm}(.96\textwidth,-1.1cm)
+  \includegraphics[height=1.2cm,width=1.35cm]{logo}
+  \end{textblock*}}
+
+  \begin{frame}{主要工作}
     \begin{itemize}
     \item \textbf{Word Similarity at NLPCC-2016} \newline
     \item \textbf{DBQA at NLPCC-2017} \newline
@@ -58,7 +74,7 @@
      human labelled scores, respectively.
     \end{frame}
 
-    \begin{frame}{评测结果}
+    \begin{frame}{NLPCC-2016 评测结果}
     \begin{center}
       \begin{figure}
       \includegraphics[width=4in,height=2.8in]{ws-result.png}
@@ -68,27 +84,39 @@
     \end{frame}
 
     \begin{frame}{我的结果}
-      \begin{itemize}
-      \item Word2Vec + 同义词词林 + 知网 \\
-      Spearman value = 0.58
-      \end{itemize}
-    \end{frame}
-
-    \begin{frame}{Word2Vec}
-    \begin{itemize}
-      \item 2G 新闻语料 （12对词未覆盖）\\
-      Spearman value = 0.338
-      \item 2G 新闻语料 + 补充语料 \\
-      Spearman value = 0.400
-    \end{itemize}
+          \begin{table}
+      \centering
+      %\caption{结果对比}
+      \label{tab:commands}
+      \begin{minipage}{\columnwidth}
+      \begin{center}
+      \begin{tabular}{lc}
+      \hline
+       Method                          &  Spearman \\ \hline
+       NLPCC-2016 best result  & 0.518 \\ \hline
+       Word2Vec1(2G新闻语料，12对词未覆盖) & 0.338 \\ \hline
+       Word2Vec2(2G新闻语料+补充语料)      & 0.400 \\ \hline
+       Word2Vec3(20G语料)                & 0.426 \\ \hline
+       知网1(刘群等，2002，118对词未覆盖)    & 0.258  \\ \hline
+       知网2(刘群等，2002，未覆盖给0.5的值)  & 0.418  \\ \hline
+       同义词词林（田久乐人，2010）       & 0.406  \\ \hline
+       同义词词林（朱新华人，2016）       & 0.431  \\ \hline
+       Word2Vec2 + 同义词词林2010        & \textbf{0.518}  \\ \hline
+       Word2Vec2 + 同义词词林2016        & \textbf{0.538}  \\ \hline
+       Word2Vec2 + 同义词词林2010 + 知网1 & \textbf{0.582}  \\ \hline
+       Word2Vec2 + 同义词词林2016 + 知网1 & \textbf{0.587}  \\ \hline
+      \end{tabular}
+      \end{center}
+      \end{minipage}
+      \end{table}
     \end{frame}
 
     \begin{frame}{同义词词林}
-    参考三篇Paper: 
+    参考两篇Paper: 
     \begin{itemize}
       \item [1]田久乐,赵蔚. 基于同义词词林的词语相似度计算方法[J]. 吉林大学学报(信息科学版),2010,06:602-608. \\
-      \item [2]吕立辉,梁维薇,冉蜀阳. 基于词林的词语相似度的度量[J]. 现代计算机(专业版),2013,01:3-6+9. \\
-      \item [3]朱新华,马润聪,孙柳,陈宏朝. 基于知网与词林的词语语义相似度计算[J]. 中文信息学报,2016,04:29-36. \\
+      %\item [2]吕立辉,梁维薇,冉蜀阳. 基于词林的词语相似度的度量[J]. 现代计算机(专业版),2013,01:3-6+9. \\
+      \item [2]朱新华,马润聪,孙柳,陈宏朝. 基于知网与词林的词语语义相似度计算[J]. 中文信息学报,2016,04:29-36. \\
     \end{itemize}
     \end{frame}
 
@@ -150,48 +178,8 @@
     Ab02C02\# 遗老 \ 遗少 \ 遗老遗少 \ 封建残余 \\
     \end{frame}
 
-    \begin{frame}{吕立辉等的算法, 2013}
-    \begin{itemize}
-      \item 1. 考虑路径长度信息 \\
-      $$
-        g_1(l) = e^{-{\alpha}l}
-      $$
-      $\alpha$为待定系数，$l$为距离。 \\
-      比如"体制"这个单词对应的编码为"Di09D01="，还有"阶级"这个单词对应的编码为"Di06A01="，两个词的公共祖先在第二层，在第三层产生分支，则两个词在词林树中相隔的路径长就为6。 
-      一个词可能有多个编码，这里取最短距离。
-    \end{itemize}
-    \end{frame}
-
-    \begin{frame}{吕立辉等的算法, 2013}
-    \begin{itemize}
-      \item 2. 考虑密度信息 \\
-      \begin{itemize}
-        \item 密度信息为$d$
-        $$
-          d = -\log{\frac{freq(c)}{N}}
-        $$
-        $$
-          g_2(d) = \frac{e^{\beta d} - e^{-\beta d}}{e^{\beta d} + e^{-\beta d}}
-        $$
-        \item 其中$freq(c)$为两个词所在的分支之间所有分支所包含的词的个数，N为词林中单词的总数。
-        \item $\beta$为待定系数，使用双曲正切函数是为了使$g_2$的范围在[0,1]
-      \end{itemize}
-    \end{itemize}
-    \end{frame}
-
-    \begin{frame}{吕立辉等的算法, 2013}
-      \begin{itemize}
-        \item 3. 最终相似度为
-        $$
-          sim = \delta * g_1(l) + (1 - \delta) * g_2(d)
-        $$
-        其中$\delta$，$1-\delta$分别为$g1$，$g2$的权重参数，$\delta \in [0, 1]$。
-      \end{itemize}
-    \end{frame}
-
     \begin{frame}{朱新华等的算法, 2016}
       \begin{itemize}
-        \item 该方法是改进（田久乐等，2010）的算法。
         \item （田久乐等，2010）的算法是以分支节点数n和分支间隔k为主要考虑因素，因此会出现许多距离近的词语因分支间隔远而算出相似度过低的不合理现象。为解决这一问题，朱新华等提出了一个以词语距离d为主要影响因素、分支节点数n和分支间隔k为调节参数的计算公式。
         $$
           sim(C_1, C_2) = (1.05 - 0.05dis(C_1, C_2)) \sqrt{e^{\frac{-k}{2n}}}
@@ -209,21 +197,8 @@
       \end{figure}
     \end{frame}
 
-    \begin{frame}{三种词林方法+Word2Vec的结果}
-      \begin{itemize}
-        \item 田久乐等，2010 + Word2vec 
-        Spearman value = 0.518
-        \item 吕立辉等，2013 + Word2vec 
-        Spearman value = 0.450
-        \item 朱新华等，2016 + Word2vec 
-        Spearman value = 0.538
-      \end{itemize}
-      超过了第一名的0.518
-    \end{frame}
-
     \begin{frame}{《知网》简介}
       \begin{itemize}
-        \item 《知网》是一部详尽的语义知识词典。
         \item 《知网》的结构
           \begin{itemize}
             \item “概念”，是用一种“知识描述语言”来描述的，可以理解为一个词的一种意思。
@@ -232,6 +207,16 @@
       \end{itemize}
       \begin{figure}
       \includegraphics[width=4in,height=1.7in]{hownet1.png}
+      %\caption{}
+      \end{figure}
+      \small
+      [3] 刘群, 李素建. 基于《 知网》 的词汇语义相似度计算[J]. 中文计算语言学, 2002.
+    \end{frame}
+
+    
+    \begin{frame}{知识描述语言的符号及其含义}
+      \begin{figure}
+      \includegraphics[width=4in,height=1.92in]{hownet3.png}
       %\caption{}
       \end{figure}
     \end{frame}
@@ -296,19 +281,6 @@
       \end{itemize}
     \end{frame}
 
-    \begin{frame}{知识描述语言实例}
-      \begin{figure}
-      \includegraphics[width=4in,height=1.7in]{hownet1.png}
-      %\caption{}
-      \end{figure}
-    \end{frame}
-
-    \begin{frame}{知识描述语言的符号及其含义}
-      \begin{figure}
-      \includegraphics[width=4in,height=1.92in]{hownet3.png}
-      %\caption{}
-      \end{figure}
-    \end{frame}
 
     \begin{frame}{基于《知网》的词语语义相似度计算方法}
       \begin{itemize}
@@ -418,101 +390,111 @@
     \end{center}
   \end{frame}
 
-  \begin{frame}{Method}
+  \begin{frame}{Distance-based Scoring}
     \begin{enumerate}
-      \item Find question word in question \newline
-      俄罗斯 {} 贝加尔湖 {} 的 {} 面积 {} 有 {} \textcolor{red}{多大}
-      \item Remove stopwords \newline
-      俄罗斯 {} 贝加尔湖 {} 面积 {} \textcolor{red}{多大}
-      \item Assign weight for each word in question \newline
-        $w_i = 2^{-distance(word_i, word_q)}$ {}{}{} $word_q$: question word
-      \item Scoring sentence $A$ \newline
-        $ score(A) = \sum_{i=1}^{l} s_i $, {}{}{} $ s_i=\begin{cases}w_i & word_i \in A  \\ 0 & word_i \notin A \end{cases} $ \\
-        $l$ is the number of the words in question.
+      \item Find question word in question and get its position p \newline
+      俄罗斯 {} 贝加尔湖 {} 的 {} 面积 {} 有 {} \textcolor{red}{多大} 
+      \item Remove stopwords. Get question word list $W$. \newline
+      俄罗斯 {} 贝加尔湖 {} 面积 {} \textcolor{red}{多大} \\
+      \quad 0 \qquad \qquad 1 \qquad 2 \quad 3 
+
+      \item Assign score for each word $W$ \newline
+        \begin{equation}
+          s_i = \begin{cases}2^{-|i-p|} & i \ne p \\ 0 & i = p \end{cases}
+        \end{equation}
+      \item Scoring sentence $ans$ \newline
+        $ score(ans) = \sum_{i}^{l} {\delta}_i $, {}{}{} $ {\delta}_i=\begin{cases}s_i & w_i \in ans  \\ 0 & w_i \notin ans \end{cases} $ \\
+        $l$ is the length of W, $w_i$ refers to the word in $W$.
     \end{enumerate}
+  \end{frame}
+
+  \begin{frame}{Weighted Distance-based Scoring}
+    According to whether the word $w_i$ is at the right of the key word or at the left, we update the score computation for the word in $W$ as Eq.4  
+
+      \begin{equation}
+      \begin{aligned}
+        s_i = \begin{cases} \beta \times 2^{-|i-d|} & i > d \\
+         2^{-|i-d|} & i < d \\
+         0 & i = d
+         \end{cases}
+      \end{aligned}
+      \end{equation}
+    $\beta$ is a positive number tuned by training data. In our experiment, $\beta = 4.3$ is optimized.
   \end{frame}
 
   \begin{frame}{Result}
     \begin{center}
       \begin{figure}
-      \includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{result-dbqa.png}
-      \caption{Result for DBQA}
+      \includegraphics[width=13cm,height=7.45cm]{result-dbqa.png}
+      %\caption{Result for DBQA}
       \end{figure}
     \end{center}
   \end{frame}
 
   \section{Short Text Conversation}
 
-    \begin{frame}{STC-2@NTCIR-13}
-    \begin{itemize}
-    \item \textbf{NTCIR} \newline
-    \textcolor{red}{N}II \textcolor{red}{T}estbeds and \textcolor{red}{C}ommunity for \textcolor{red}{I}nformation access \textcolor{red}{R}esearch \newline  
-    \item \textbf{STC} \newline
-    \textcolor{red}{S}hort \textcolor{red}{T}ext \textcolor{red}{C}onversation \newline   
-    
-    which consists of two subtask: 
-        \begin{itemize}
-        \item Chinese task
-        \item Japanese task
-        \end{itemize} 
-    \end{itemize}
-    \end{frame}
-
-    \begin{frame}{IR-based method}
-      \begin{center}
+    \begin{frame}{短文本对话}
+      
       \begin{figure}
-      \includegraphics[width=0.8\textwidth,height=0.6\textheight]{irbased-stc.png}
-      \caption{IR-based method}
+      \includegraphics[width=10cm,height=5.09cm]{stc2-ir-task.png}
+      \caption{基于检索的方法}
       \end{figure}
-      \end{center}
+
     \end{frame}
 
     \begin{frame}{Relevance Assessments}
-      To make the annotation task operable, the appropriateness of retrieved comments is judged from the following four criteria:
+      Judging criteria:
       \begin{enumerate}
         \item Fluent
         \item Coherent: logically and topically relevant 
         \item Self-sufficient
         \item Substantial
       \end{enumerate}
-      If either (1) or (2) is untrue, the retrieved comment should be labeled "L0"; if either (3) or (4) is untrue, the label should be "L1"; otherwise, the label is "L2".
+      If (1) or (2) is false: label = "L0" \\
+      else if (3) or (4) is false: label = "L1" \\
+      else: label = "L2"
     \end{frame}
 
     \begin{frame}{Labels}
       \begin{center}
         \begin{figure}
         \includegraphics[width=4in,height=2.25in]{stc-labels.png}
-        \caption{Example of a post and its five candidate comments with human annotation. The content of the post implies that the football match has already started, while the author of Comment 1 is still waiting for the match to start. Comment 2 talks about the food of Italy. Comment 3 is a widely used response, but it is
-appropriate for this post. Comment 4 states that the current score is still 0:0, it is an appropriate comment only for this specific scenario.}
+        \caption{Example of a post and its five candidate comments with human annotation. }
         \end{figure}
       \end{center}
     \end{frame}
 
     \begin{frame}{System Architecture}
-      \begin{enumerate}
-        \item Preprocessing \newline
-        \item Candidates Generation \newline
-        \item Ranking
-      \end{enumerate}
+      \begin{figure}
+      \includegraphics[width=14cm,height=4.63cm]{stc-flow-big.png}
+      \caption{System Architecture}
+      \end{figure}
     \end{frame}
 
     \begin{frame}{Preprocessing}
       \begin{itemize}
-        \item Traditional-Simplified Conversion
-        \item Full-width to half-width
-        \item Replace with token <\_NUM> <\_TIME> <\_URL>
-        \item Word Segmentation
-        \item Filter meaningless words and special symbols.
+        \item Traditional-Simplified Chinese conversion
+        \item Convert Full-width characters into half-width ones
+        \item Word segmentation (PKU standard)
+        \item Replace number, time, url with token <\_NUM>, <\_TIME>, <\_URL> respectively
+        \item Filter meaningless words and special symbols
       \end{itemize}
     \end{frame}
 
+    {
+    \setbeamercolor{background canvas}{bg=}
+    \includepdf[pages=1]{test.pdf}
+    }
+
     \begin{frame}{Similarity Features}
       \begin{itemize}
+        \item TF-IDF
         \item LSA (Latent Semantic Analysis)
         \item LDA (Latent Dirichlet Allocation)
-        \item Word2Vec
-        \item LSTM-Sen2Vec
+        \item Word2Vec (skip-gram)
+        \item \textbf{LSTM-Sen2Vec }
       \end{itemize}
+      We combine each post with its corresponding comments to be a document, then train LSA and LDA models on these documents.
     \end{frame}
 
     \begin{frame}{LSTM}
@@ -541,33 +523,61 @@ appropriate for this post. Comment 4 states that the current score is still 0:0,
       \begin{column}[t]{0.4\textwidth}
         \begin{figure}
         \includegraphics[width=1.8in,height=1.1in]{lstm2.png}
-        \caption{The repeating module in an LSTM contains four interacting layers.}
+        \caption{The LSTM Cell.}
         \end{figure}
       \end{column}
 
       \end{columns}
+      \vspace*{2em}
+
+      \tiny
+      Mikolov, Toma's. Statistical Language Models Based on Neural Networks. Ph.D. thesis, Brno University of Technology.(2012)
+
+      Zaremba, Wojciech, I. Sutskever, and O. Vinyals. Recurrent Neural Network Regularization. Eprint Arxiv (2014).
       
+    \end{frame}
+
+    \begin{frame}{Attention weight}
+      \begin{columns}
+      \begin{column}[t]{0.5\textwidth}
+        \begin{figure}
+        \includegraphics[width=6.4cm,height=4.8cm]{forward.png}
+        \caption{Unidirectional weight distribution}
+        \end{figure}
+      \end{column}
+
+      \begin{column}[t]{0.5\textwidth}
+        \begin{figure}
+        \includegraphics[width=6.4cm,height=4.8cm]{bidirectional.png}
+        \caption{bidirectional weight distribution}
+        \end{figure}
+      \end{column}
+
+      \end{columns}
     \end{frame}
 
     \begin{frame}{LSTM-Sen2Vec}
       \begin{columns}
       \begin{column}[t]{0.5\textwidth}
         \begin{figure}
-        \includegraphics[width=1.47in,height=0.7in]{unilstm.png}
-        \caption{The unidirectional LSTM}
+        \includegraphics[width=6.7cm,height=3.2cm]{unilstm.png}
+        \caption{The Unidirectional LSTM}
         \end{figure}
       \end{column}
 
       \begin{column}[t]{0.5\textwidth}
         \begin{figure}
-        \includegraphics[width=1.31in,height=0.7in]{bilstm1.png}
+        \includegraphics[width=6cm,height=3.2cm]{bilstm1.png}
         \caption{The Traditional Bidirectional LSTM}
         \end{figure}
       \end{column}
 
       \end{columns}
+    \end{frame}
+
+    \begin{frame}{LSTM-Sen2Vec}
       \begin{figure}
-        \includegraphics[width=3in,height=1.5in]{bilstm2.png}
+        \includegraphics[width=12cm,height=6cm]{bilstm2.png}
         \caption{The Modified Bidirectional LSTM}
         \end{figure}
     \end{frame}
@@ -593,9 +603,9 @@ appropriate for this post. Comment 4 states that the current score is still 0:0,
 
     \begin{frame}{Ranking}
       \begin{itemize}
-        \item TextRank
+        \item TextRank (Words as vertices)
         \item Pattern-IDF
-        \item TextRank + Pattern-IDF
+        \item Pattern-IDF + TextRank (Sentences as vertices)
       \end{itemize}
     \end{frame}
 
@@ -640,8 +650,9 @@ appropriate for this post. Comment 4 states that the current score is still 0:0,
       \end{bmatrix}
       R(t)
       \]
-      $R(0) = [IDF(D_0) \ IDF(D_1) \ ... \ IDF(D_{k-1})]^T$ \newline
-      Stop when $|R(t+1)-R(t)|<\epsilon$, $\epsilon = 10^{-7}$
+      %$R(0) = [IDF(D_0) \ IDF(D_1) \ ... \ IDF(D_{k-1})]^T$ \newline
+      Stop when $|R(t+1)-R(t)|<\epsilon$, $\epsilon = 10^{-7}$. \\
+      Here, $cnt$ refers to the number of co-ocurrences within a sentence for $D_i$ and $D_j$. \\
     \end{frame}
 
     \begin{frame}{TextRank - Ranking}
@@ -654,17 +665,98 @@ appropriate for this post. Comment 4 states that the current score is still 0:0,
     \end{frame}
 
     \begin{frame}{Pattern-IDF}
-      For word $D_i$ in corresponding comment given word $D_j$ in the post, we 
-      define Pattern-IDF as:
-      \begin{equation}
-        PI(D_i|D_j) = 1 / \log_2{\frac{count_c(D_i) * count_p(D_j)}{1+count_{pair}(D_i, D_j)}}
-      \end{equation}
-      Here $count_c$ refers to the number of occurrence in comments, $count_p$ in posts, $count_{pair}$ in post-comment pair.
+      For word $D_i$ in corresponding comment given word $D_j$ in the post, we define ($D_j$,$D_i$) as a pattern.
 
-      Normalized $PI$:
+      Inspired by the IDF, we calculate the Pattern-IDF as:
       \begin{equation}
-        PI_{norm}(D_i|D_j) = \frac{PI(D_i|D_j)}{\sum_{k=1}^n{PI(D_k|D_j)}}
+        PI(D_i|D_j) = 1 / \log_2{\frac{count_c(D_i) * count_p(D_j)}{count_{pair}(D_i, D_j)}}
       \end{equation}
+      where $count_c$ refers to the number of word occurring in comments, $count_p$ refers to that in posts, $count_{pair}$ refers to that in post-comment pair. The PI whose $count_{pair}(D_i, D_j)$ less than 3 are eliminated.
+
+    \end{frame}
+
+    \begin{frame}{Pattern-IDF}
+      Let $X = \frac{count_c(D_i) * count_p(D_j)}{count_{pair}(D_i, D_j)}$, then $X \in [1, \infty)$.
+      \begin{columns}[T] % align columns
+      \begin{column}{.48\textwidth}
+      
+      \begin{figure}
+      \includegraphics[width=6.4cm,height=4.8cm]{pi1.png}
+      \caption{log(X)}
+      \end{figure}
+      
+      \end{column}%
+      \hfill%
+      \begin{column}{.48\textwidth}
+      
+        \begin{figure}
+        \includegraphics[width=6.4cm,height=4.8cm]{pi2.png}
+        \caption{1/log(x)}
+        \end{figure}
+
+      \end{column}%
+      \end{columns}
+    \end{frame}
+
+    \begin{frame}{PI - Example}
+      \begin{columns}[T] % align columns
+      \begin{column}{.48\textwidth}
+      \begin{table}[small]
+        \centering
+        \caption{The example of Pattern-IDF}
+        \resizebox{\linewidth}{!}{% Resize table to fit within \linewidth horizontally
+        \begin{tabular}{lll}
+        \hline
+         $Major Word$ & $Minor Word$ & $PI$ \\ \hline
+         中国移动 (China Mobile) & 接通 (connect)   & 0.071725 \\ \hline
+         中国移动 & cmcc                                  & 0.067261 \\ \hline
+         中国移动 & 资费 (charges)   & 0.062408 \\ \hline
+         中国移动 & 营业厅 (business hall
+        ) & 0.059949 \\ \hline
+         中国移动 & 漫游 (roamimg)   & 0.059234 \\ \hline
+         ... & ...  & ...  \\ \hline
+         中国移动 & 我 (me)   & 0.028889 \\ \hline
+         中国移动 & 是 (be)   & 0.027642 \\ \hline
+         中国移动 & 的 (of)   & 0.026346 \\ \hline
+        \end{tabular}}
+        \end{table}
+      
+      \end{column}%
+      \hfill%
+      \begin{column}{.48\textwidth}
+      \begin{table}[small]
+        \centering
+        \caption{The entropy of Pattern-IDF for each Major Word}
+        \resizebox{.65\linewidth}{!}{% Resize table to fit within \linewidth horizontally
+        \begin{tabular}{ll}
+        \hline
+         $Major Word$   & H \\ \hline
+         眼病  (eye disease)     & 0.889971 \\ \hline
+         丰收年 (harvest year)      & 0.988191 \\ \hline
+         血浆 (plasma)            & 1.033668 \\ \hline
+         脊椎动物 (vertebrate)    &  1.083438 \\ \hline
+         水粉画 （gouache painting）&  1.180993 \\ \hline
+         ...            & ...        \\ \hline
+         现在 (now)     & 9.767768   \\ \hline
+         什么 (what)  & 10.219045  \\ \hline
+         是 (be)         & 10.934950   \\ \hline
+        \end{tabular}}
+        \end{table}
+
+        
+      \end{column}%
+
+      \end{columns}
+      
+      \begin{equation}
+      \Fontvi
+      PI_{norm}(D_i|D_j) = \frac{PI(D_i|D_j)}{\sum_{i=1}^n{PI(D_i|D_j)}}
+      \end{equation}
+      \begin{equation}
+      \Fontvi
+      H(D_j) = - \sum_{i=1}^n{PI_{norm}(D_i|D_j)\log_2{PI_{norm}(D_i|D_j)}}
+      \end{equation}
+
     \end{frame}
 
     \begin{frame}{PI - Ranking}
@@ -675,16 +767,16 @@ appropriate for this post. Comment 4 states that the current score is still 0:0,
       \end{equation}
       Then we define rank score as follow:
       \begin{equation}
-        Rank_{PI} = (1 + Score_{PI}(q, c)) * Sim_{W2V}(q, c)*Sim_{LSA}(q, c)  
+        Rank_{PI} = (1 + \frac{Score_{PI}(q, c)}{\max{Score_{PI}(q, c)}}) * Sim_{W2V}(q, c)*Sim_{LSA}(q, c)  
       \end{equation}
     \end{frame}
 
     \begin{frame}{TextRank + Pattern-IDF}
       In this method, We add each comment sentence in candidates as a vertex in the graph and use sentence Word2Vec similarity as edges between vertices in the graph.
 
-      For $N$ candidates, we construct $ N \times N $ matrix $M$. $M_{ij} = SIM_{w2v}(candidate_i, candidate_j)$. 
+      For $N$ candidates, we construct $ N \times N $ matrix $M$. $M_{ij} = SIM_{w2v}(c_i, c_j)$. 
 
-      At time $t = 0$, We initiate a N-dimension vector $P$ , here $N$ is the number 
+      At time $t = 0$, We initiate a N-dimension vector $P$ , where $N$ is the number 
       of comment candidates. And each entry of $P$ is defined as the score of Pattern-IDF between the query (new post) $q$ and corresponding comment $c_i$ in candidates:
       \begin{equation}
         P_i = Score_{PI}(q, c_i)
@@ -715,39 +807,41 @@ appropriate for this post. Comment 4 states that the current score is still 0:0,
       Finally, we get the score $P_i$ for each comment in candidates. 
     \end{frame}
 
-  \begin{frame}{Experimental Result}
-      \begin{enumerate}
-  \item{Nders-C-R5: } Use LDA, Word2Vec and LSTM-Sen2Vec to retrieve similar posts 
-  and get corresponding comments, LDA and Word2Vec to retrieve appropriate comments 
-  from all comments, combine and rank them with $Score_{q,c}^1(q, c)$ and get top-10 comments as results.
-  \item{Nders-C-R4: } Use LSA, Word2Vec and LSTM-Sen2Vec to retrieve similar posts 
-  and get corresponding comments, LSA and Word2Vec to retrieve appropriate comments 
-  from all comments, combine and rank them with $Score_{q,c}^2(q, c)$ and  get top-10 comments as results.
-  \item{Nders-C-R3: } TextRank rank candidates from R4
-  \item{Nders-C-R2: } Pattern-IDF rank candidates from R4
-  \item{Nders-C-R1: } TextRank + Pattern-IDF rank candidates from R4
-\end{enumerate}
-    \end{frame}
+  \begin{frame}{Experiment}
+    \begin{itemize}
+      \item{Nders-C-R5: } LDA + Word2Vec + LSTM-Sen2Vec 
+      \item{Nders-C-R4: } LSA + Word2Vec + LSTM-Sen2Vec 
+      \item{Nders-C-R3: } R4 + TextRank (Words as vertices)
+      \item{Nders-C-R2: } R4 + Pattern-IDF 
+      \item{Nders-C-R1: } R4 + Pattern-IDF + TextRank (Sentences as vertices)
+    \end{itemize}
+  \end{frame}
 
   \begin{frame}{Official Result}
-    \begin{table}
-\centering
-\caption{The official results of five runs for Nders team}
-\label{tab:commands}
-\begin{minipage}{\columnwidth}
-\begin{center}
-\begin{tabular}{|l|c|c|c|}
-\hline
- Run        &  Mean nG@1  &  Mean P+  &  Mean nERR@10  \\ \hline
- Nders-C-R1 & 0.4593 & 0.5394 & 0.5805 \\ \hline
- Nders-C-R2 & 0.4743 & \textbf{0.5497} & \textbf{0.5882} \\ \hline
- Nders-C-R3 & 0.4647 & 0.5317 & 0.5768 \\ \hline
- Nders-C-R4 & \textbf{0.4780} & 0.5338 & 0.5809 \\ \hline
- Nders-C-R5 & 0.4550 & 0.5495 & 0.5868 \\ \hline
-\end{tabular}
-\end{center}
-\end{minipage}
-\end{table}
+        \begin{table}
+    \centering
+    \caption{The official results}
+    \label{tab:commands}
+    \begin{minipage}{\columnwidth}
+    \begin{center}
+    \begin{tabular}{|l|c|c|c|}
+    \hline
+     Run        &  Mean nG@1  &  Mean P+  &  Mean nERR@10  \\ \hline
+     SG01 & 0.5867 & 0.6670 & 0.7095 \\ \hline
+     splab & 0.5080 & 0.6080 & 0.6492 \\ \hline
+     Beihang & 0.4980 & 0.5818 & 0.6105 \\ \hline
+     DeepIntell & 0.4323 & 0.5564 & 0.5994 \\ \hline
+     Nders-C-R1 & 0.4593 & 0.5394 & 0.5805 \\ \hline
+     Nders-C-R2 & 0.4743 & \textbf{0.5497(5th)} & \textbf{0.5882(5th)} \\ \hline
+     Nders-C-R3 & 0.4647 & 0.5317 & 0.5768 \\ \hline
+     Nders-C-R4 & \textbf{0.4780(4th)} & 0.5338 & 0.5809 \\ \hline
+     Nders-C-R5 & 0.4550 & 0.5495 & 0.5868 \\ \hline
+     \textcolor{red}{R2 \ vs. \  R4}  & \textcolor{red}{$\downarrow$0.77\%} & \textcolor{red}{$\uparrow$2.98\%} & \textcolor{red}{$\uparrow$1.26\%} \\ \hline
+
+    \end{tabular}
+    \end{center}
+    \end{minipage}
+    \end{table}
   \end{frame}
 
   \begin{frame}[standout]
