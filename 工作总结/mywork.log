@@ -1,4 +1,4 @@
-This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.6.8)  18 DEC 2017 11:58
+This is XeTeX, Version 3.14159265-2.6-0.99992 (TeX Live 2015/Debian) (preloaded format=xelatex 2017.6.8)  21 DEC 2017 14:56
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -2168,48 +2168,61 @@ File: logo.png Graphic file (type QTm)
  <use  "logo.png" > [35
 
 ]
+*************************************************
+* fontspec warning: "addfontfeatures-ignored"
+* 
+* \addfontfeature(s) ignored on line 445; it cannot be used with a font that
+* wasn't selected by a fontspec command.
+* 
+* The current font is "\EU1/lmss/bx/n/7 ".
+* The requested feature is "Numbers={Monospaced}".
+*************************************************
+File: logo.png Graphic file (type QTm)
+<use  "logo.png" > [36
+
+]
 File: result-dbqa.png Graphic file (type QTm)
  <use  "result-dbqa.png" >
 File: logo.png Graphic file (type QTm)
  <use  "logo.png" >
-Overfull \vbox (29.60428pt too high) detected at line 432
+Overfull \vbox (29.60428pt too high) detected at line 454
  []
 
-[36
+[37
 
-] [37
+] [38
 
 ]
 File: stc2-ir-task.png Graphic file (type QTm)
  <use  "stc2-ir-task.png" >
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" > [38
+ <use  "logo.png" > [39
 
 ]
 File: logo.png Graphic file (type QTm)
 
-<use  "logo.png" > [39
+<use  "logo.png" > [40
 
 ]
 File: stc-labels.png Graphic file (type QTm)
  <use  "stc-labels.png" >
 File: logo.png Graphic file (type QTm)
  <use  "logo.png" >
-Overfull \vbox (5.27689pt too high) detected at line 465
+Overfull \vbox (5.27689pt too high) detected at line 487
  []
 
-[40
+[41
 
 ]
 File: stc-flow-big.png Graphic file (type QTm)
  <use  "stc-flow-big.png" >
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" > [41
+ <use  "logo.png" > [42
 
 ]
 File: logo.png Graphic file (type QTm)
  <use  "logo.png" >
-[42
+[43
 
 ]
 File: test.pdf Graphic file (type QTm)
@@ -2227,16 +2240,16 @@ File: test.pdf Graphic file (type QTm)
  <use  "test.pdf"  page1>
 File: test.pdf Graphic file (type QTm)
 
-<use  "test.pdf"  page1> [43
+<use  "test.pdf"  page1> [44
 
 ]
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" > [44]
+ <use  "logo.png" > [45]
 File: lstm2.png Graphic file (type QTm)
  <use  "lstm2.png" >
 File: logo.png Graphic file (type QTm)
 
-<use  "logo.png" > [45
+<use  "logo.png" > [46
 
 ]
 File: forward.png Graphic file (type QTm)
@@ -2245,7 +2258,7 @@ File: bidirectional.png Graphic file (type QTm)
  <use  "bidirectional.png" >
 File: logo.png Graphic file (type QTm)
 
-<use  "logo.png" > [46
+<use  "logo.png" > [47
 
 ]
 File: unilstm.png Graphic file (type QTm)
@@ -2254,21 +2267,17 @@ File: bilstm1.png Graphic file (type QTm)
  <use  "bilstm1.png" >
 File: logo.png Graphic file (type QTm)
 
-<use  "logo.png" > [47
+<use  "logo.png" > [48
 
 ]
 File: bilstm2.png Graphic file (type QTm)
  <use  "bilstm2.png" >
 File: logo.png Graphic file (type QTm)
  <use  "logo.png" >
-Overfull \vbox (13.39642pt too high) detected at line 583
+Overfull \vbox (13.39642pt too high) detected at line 605
  []
 
-[48
-
-]
-File: logo.png Graphic file (type QTm)
- <use  "logo.png" > [49
+[49
 
 ]
 File: logo.png Graphic file (type QTm)
@@ -2276,12 +2285,12 @@ File: logo.png Graphic file (type QTm)
 
 ]
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" >
-[51
+ <use  "logo.png" > [51
 
 ]
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" > [52
+ <use  "logo.png" >
+[52
 
 ]
 File: logo.png Graphic file (type QTm)
@@ -2289,12 +2298,16 @@ File: logo.png Graphic file (type QTm)
 
 ]
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" >
-[54
+ <use  "logo.png" > [54
 
 ]
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" > [55
+ <use  "logo.png" >
+[55
+
+]
+File: logo.png Graphic file (type QTm)
+ <use  "logo.png" > [56
 
 ]
 File: pi1.png Graphic file (type QTm)
@@ -2304,77 +2317,73 @@ File: pi2.png Graphic file (type QTm)
 File: logo.png Graphic file (type QTm)
 
 <use  "logo.png" >
-Overfull \vbox (4.66402pt too high) detected at line 699
- []
-
-[56
-
-]
-*************************************************
-* fontspec warning: "addfontfeatures-ignored"
-* 
-* \addfontfeature(s) ignored on line 760; it cannot be used with a font that
-* wasn't selected by a fontspec command.
-* 
-* The current font is "\EU1/lmss/bx/n/7 ".
-* The requested feature is "Numbers={Monospaced}".
-*************************************************
-*************************************************
-* fontspec warning: "addfontfeatures-ignored"
-* 
-* \addfontfeature(s) ignored on line 760; it cannot be used with a font that
-* wasn't selected by a fontspec command.
-* 
-* The current font is "\EU1/lmss/bx/n/7 ".
-* The requested feature is "Numbers={Monospaced}".
-*************************************************
-LaTeX Font Info:    Calculating math sizes for size <> on input line 760.
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
-(Font)              size <5> substituted on input line 760.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 760.
-
-
-LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 760.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
-(Font)              size <5> substituted on input line 760.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
-(Font)              size <5> substituted on input line 760.
-
-
-LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
-(Font)              size <5> substituted on input line 760.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
-(Font)              size <5> substituted on input line 760.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
-(Font)              size <5> substituted on input line 760.
-
-
-LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
-(Font)              size <5> substituted on input line 760.
-
-File: logo.png Graphic file (type QTm)
-<use  "logo.png" >
-Overfull \vbox (22.75441pt too high) detected at line 760
+Overfull \vbox (4.66402pt too high) detected at line 721
  []
 
 [57
 
 ]
+*************************************************
+* fontspec warning: "addfontfeatures-ignored"
+* 
+* \addfontfeature(s) ignored on line 782; it cannot be used with a font that
+* wasn't selected by a fontspec command.
+* 
+* The current font is "\EU1/lmss/bx/n/7 ".
+* The requested feature is "Numbers={Monospaced}".
+*************************************************
+*************************************************
+* fontspec warning: "addfontfeatures-ignored"
+* 
+* \addfontfeature(s) ignored on line 782; it cannot be used with a font that
+* wasn't selected by a fontspec command.
+* 
+* The current font is "\EU1/lmss/bx/n/7 ".
+* The requested feature is "Numbers={Monospaced}".
+*************************************************
+LaTeX Font Info:    Calculating math sizes for size <> on input line 782.
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <> not available
+(Font)              size <5> substituted on input line 782.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 782.
+
+
+LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 782.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <> not available
+(Font)              size <5> substituted on input line 782.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.7> not available
+(Font)              size <5> substituted on input line 782.
+
+
+LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <0.5> not available
+(Font)              size <5> substituted on input line 782.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <> not available
+(Font)              size <5> substituted on input line 782.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.7> not available
+(Font)              size <5> substituted on input line 782.
+
+
+LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <0.5> not available
+(Font)              size <5> substituted on input line 782.
+
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" > [58
+<use  "logo.png" >
+Overfull \vbox (22.75441pt too high) detected at line 782
+ []
+
+[58
 
 ]
 File: logo.png Graphic file (type QTm)
@@ -2382,18 +2391,22 @@ File: logo.png Graphic file (type QTm)
 
 ]
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" >
-[60
+ <use  "logo.png" > [60
 
 ]
 File: logo.png Graphic file (type QTm)
- <use  "logo.png" > [61
+ <use  "logo.png" >
+[61
+
+]
+File: logo.png Graphic file (type QTm)
+ <use  "logo.png" > [62
 
 ]
 *************************************************
 * fontspec warning: "addfontfeatures-ignored"
 * 
-* \addfontfeature(s) ignored on line 845; it cannot be used with a font that
+* \addfontfeature(s) ignored on line 867; it cannot be used with a font that
 * wasn't selected by a fontspec command.
 * 
 * The current font is "\EU1/lmss/bx/n/7 ".
@@ -2401,12 +2414,22 @@ File: logo.png Graphic file (type QTm)
 *************************************************
 File: logo.png Graphic file (type QTm)
 <use  "logo.png" >
-Overfull \vbox (19.51477pt too high) detected at line 845
+Overfull \vbox (19.51477pt too high) detected at line 867
  []
 
-[62
+[63
 
-] [63
+]
+File: stc-result.png Graphic file (type QTm)
+ <use  "stc-result.png" >
+File: logo.png Graphic file (type QTm)
+ <use  "logo.png" >
+Overfull \vbox (41.83694pt too high) detected at line 877
+ []
+
+[64
+
+] [65
 
 ]
 \tf@nav=\write6
@@ -2418,11 +2441,11 @@ Overfull \vbox (19.51477pt too high) detected at line 845
 \tf@snm=\write8
 \openout8 = `mywork.snm'.
 
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 851.
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 851.
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 883.
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 883.
  (./mywork.aux)
-Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 851.
-Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 851.
+Package atveryend Info: Empty hook `AtVeryEndDocument' on input line 883.
+Package atveryend Info: Empty hook `AtEndAfterFileList' on input line 883.
 
 
 LaTeX Font Warning: Size substitutions with differences
@@ -2431,15 +2454,15 @@ LaTeX Font Warning: Size substitutions with differences
 
 LaTeX Warning: There were multiply-defined labels.
 
-Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 851.
+Package atveryend Info: Empty hook `AtVeryVeryEnd' on input line 883.
  ) 
 Here is how much of TeX's memory you used:
- 41326 strings out of 493638
- 823306 string characters out of 6146797
- 821918 words of memory out of 5000000
- 44021 multiletter control sequences out of 15000+600000
+ 41332 strings out of 493638
+ 823370 string characters out of 6146797
+ 821966 words of memory out of 5000000
+ 44026 multiletter control sequences out of 15000+600000
  13398 words of font info for 92 fonts, out of 8000000 for 9000
  1328 hyphenation exceptions out of 8191
  71i,18n,88p,10428b,803s stack positions out of 5000i,500n,10000p,200000b,80000s
 
-Output written on mywork.pdf (63 pages).
+Output written on mywork.pdf (65 pages).
